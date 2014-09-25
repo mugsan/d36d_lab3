@@ -1,6 +1,6 @@
-package lab3Client;
+package lab3Server;
 
-public class gameClient {
+public class GameServer {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
