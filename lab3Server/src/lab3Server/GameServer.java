@@ -8,7 +8,7 @@ public class GameServer {
     public static void main(String[] args) throws IOException {
          
  
-        int portNumber = 10000;
+        int portNumber = 12000;
 
  
         Point point = new Point(100,100);
@@ -21,15 +21,13 @@ public class GameServer {
         	ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
         	){
  
+        	ServerProtocol sp = new ServerProtocol();
         	DataPacket in,out;
+
 
         	while(true){
         		in = (DataPacket)ois.readObject();
-        		point.translate(in.direction.x, in.direction.y);
-        		System.out.println("X: " + point.x + " Y: " + point.y);
-
-        		out = new DataPacket(1,1);
-        		out.position = new Point(point);
+        		out = sp.processDataPacket(in);
         		oos.writeObject(out);
         	}
         	

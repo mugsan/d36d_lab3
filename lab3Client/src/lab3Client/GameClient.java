@@ -1,7 +1,6 @@
 
 package lab3Client;
 
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
@@ -12,24 +11,18 @@ import lab3Server.DataPacket;
 
  
 public class GameClient implements Runnable{
-	private final int 	SPEED   = 9;
-	private GameFrame 	gFrame;
+	private final int 	SPEED = 1;
+	private ClientProtocol cp;
 	
 	
 	private Boolean 	moved = false;
-	private int 		xDir = 0;
-	private int 		yDir = 0;
-	private int 		id;
+	private int 		xDir  = 0;
+	private int 		yDir  = 0;
 
-	//temp testing 
-	private Point p;
 	
 	public GameClient(){
-		this.gFrame = new GameFrame();
-		this.id 	= 1;
-		this.p 		= new Point(100,100);
-
-		this.gFrame.addKeyListener(new KeyListener() {
+		this.cp = new ClientProtocol();
+		this.cp.getFrame().addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -41,16 +34,16 @@ public class GameClient implements Runnable{
 			public void keyReleased(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case 37:
-					xDir += SPEED;
+					xDir = 0;
 					break;
 				case 38:
-					yDir += SPEED;
+					yDir = 0;
 					break;
 				case 39:
-					xDir -= SPEED;
+					xDir = 0;
 					break;
 				case 40:
-					yDir -= SPEED;
+					yDir = 0;
 					break;
 
 				default:
@@ -64,19 +57,19 @@ public class GameClient implements Runnable{
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
 				case 37:
-					xDir -= SPEED;
+					xDir = -SPEED;
 					moved = true;
 					break;
 				case 38:
-					yDir -= SPEED;
+					yDir = -SPEED;
 					moved = true;
 					break;
 				case 39:
-					xDir += SPEED;
+					xDir = SPEED;
 					moved = true;
 					break;
 				case 40:
-					yDir += SPEED;
+					yDir = SPEED;
 					moved = true;
 					break;
 
@@ -91,40 +84,32 @@ public class GameClient implements Runnable{
 	
 	@Override
 	public void run() {
-		int i = 0;
 		long fps = 1000 / 60;
 
-		System.out.println("run outside try");
 		
         try (
-                Socket s = new Socket("localhost",10000);
+                Socket s = new Socket("localhost",12000);
                 ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
                 ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
             ){
         	DataPacket in,out;
-        	while(true){
-        		out = new DataPacket(1,1);
-        		out.direction = new Point(xDir,yDir);
-        		oos.writeObject(out);
-        		System.out.println("Client 1");
-
-        		in = (DataPacket)ois.readObject();
-        		
-
-        		System.out.println("X: " + in.position.x + " Y: " + in.position.y);
-        		this.gFrame.moveObject(1, in.position);
-        		this.gFrame.revalidate();
-        		this.gFrame.repaint();
-        		Thread.sleep(fps);
-        	}
+        	out = new DataPacket(0,"JOIN");
+        	oos.writeObject(out);
         	
 
+        	while(true){
+        		in = (DataPacket)ois.readObject();
+        		this.cp.process(in);
+        		out = new DataPacket(1,"MOVE");
+        		out.xDir = this.xDir;
+        		out.yDir = this.yDir;
+        		oos.writeObject(out);
 
-
+        		Thread.sleep(fps);
+        	}
         } catch (Exception e) {
                 System.out.println(e.toString());
         }
-		
 	}
 
     public static void main(String[] args) throws IOException {
