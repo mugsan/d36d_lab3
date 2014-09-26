@@ -2,50 +2,34 @@ package lab3Client;
 
 import java.awt.Point;
 import java.io.*;
-import java.net.*;
+import java.util.ArrayList;
  
 public class GameClient {
     public static void main(String[] args) throws IOException {
-        GameView gView = new GameView(); 
-        gView.objects.add(new Point(220, 70));
-//        if (args.length != 2) {
-//            System.err.println(
-//                "Usage: java EchoClient <host name> <port number>");
-//            System.exit(1);
-//        }
-// 
-//        String hostName = args[0];
-//        int portNumber = Integer.parseInt(args[1]);
-// 
-//        try (
-//            Socket kkSocket = new Socket(hostName, portNumber);
-//            PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-//            BufferedReader in = new BufferedReader(
-//                new InputStreamReader(kkSocket.getInputStream()));
-//        ) {
-//            BufferedReader stdIn =
-//                new BufferedReader(new InputStreamReader(System.in));
-//            String fromServer;
-//            String fromUser;
-// 
-//            while ((fromServer = in.readLine()) != null) {
-//                System.out.println("Server: " + fromServer);
-//                if (fromServer.equals("Bye."))
-//                    break;
-//                 
-//                fromUser = stdIn.readLine();
-//                if (fromUser != null) {
-//                    System.out.println("Client: " + fromUser);
-//                    out.println(fromUser);
-//                }
-//            }
-//        } catch (UnknownHostException e) {
-//            System.err.println("Don't know about host " + hostName);
-//            System.exit(1);
-//        } catch (IOException e) {
-//            System.err.println("Couldn't get I/O for the connection to " +
-//                hostName);
-//            System.exit(1);
-//        }
+        GameFrame gView = new GameFrame(); 
+        GameViews gViews = new GameViews(10);
+        ArrayList<GameObject> aList = new ArrayList<GameObject>();
+        
+        gView.add(gViews);
+        
+        int i = 0;
+        long fps = 1000/30;
+        while(true)
+        {
+        	try {
+
+        		aList.add(new GameObject(new Point(i,i), 10));
+        		i+=10;
+        		gViews.setObjecets(aList);
+        		System.out.println("hey");
+        		gView.getContentPane().validate();
+        		gView.getContentPane().repaint();
+				Thread.sleep(fps);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
     }
 }
