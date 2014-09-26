@@ -1,41 +1,39 @@
 package lab3Server;
 
 import java.net.*;
+import java.awt.Point;
 import java.io.*;
- 
+
 public class GameServer {
     public static void main(String[] args) throws IOException {
          
-        if (args.length != 1) {
-            System.err.println("Usage: java KnockKnockServer <port number>");
-            System.exit(1);
-        }
  
-        int portNumber = Integer.parseInt(args[0]);
+        int portNumber = 10000;
+
  
+        Point point = new Point(100,100);
+        
+        System.out.println("hello world");
         try ( 
             ServerSocket serverSocket = new ServerSocket(portNumber);
             Socket clientSocket = serverSocket.accept();
-            PrintWriter out =
-                new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(
-                new InputStreamReader(clientSocket.getInputStream()));
-        ) {
-         
-            String inputLine, outputLine;
-             
-            // Initiate conversation with client
-            GameProtocol kkp = new GameProtocol();
-            outputLine = kkp.processInput(null);
-            out.println(outputLine);
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+        	ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+        	){
  
-            while ((inputLine = in.readLine()) != null) {
-                outputLine = kkp.processInput(inputLine);
-                out.println(outputLine);
-                if (outputLine.equals("Bye."))
-                    break;
-            }
-        } catch (IOException e) {
+        	DataPacket in,out;
+
+        	while(true){
+        		in = (DataPacket)ois.readObject();
+        		point.translate(in.direction.x, in.direction.y);
+        		System.out.println("X: " + point.x + " Y: " + point.y);
+
+        		out = new DataPacket(1,1);
+        		out.position = new Point(point);
+        		oos.writeObject(out);
+        	}
+        	
+        } catch (Exception e) {
             System.out.println("Exception caught when trying to listen on port "
                 + portNumber + " or listening for a connection");
             System.out.println(e.getMessage());
