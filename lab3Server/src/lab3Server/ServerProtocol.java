@@ -9,7 +9,6 @@ import java.util.Random;
 public class ServerProtocol {
 	private static GameModel gameModel;
 
-	private int 	nextId = 1;
 	
 	public ServerProtocol(){
 		if(ServerProtocol.gameModel == null) ServerProtocol.gameModel = new GameModel();
@@ -19,13 +18,12 @@ public class ServerProtocol {
 		DataPacket dp;
 		switch (dataPacket.msg) {
 		case "JOIN":		
-			dp = new DataPacket(ServerProtocol.gameModel.getNextId(),"ADD");
+			dp 			= new DataPacket(ServerProtocol.gameModel.getNextId(),"WELCOME");
 			dp.position = ServerProtocol.gameModel.addObject();
-			
 			break;
 		case "MOVE":
-			dp = new DataPacket(dataPacket.id, "MOVE");
-			dp.position = ServerProtocol.gameModel.moveObject(dataPacket.id, dataPacket.xDir, dataPacket.yDir);
+			dp 			= new DataPacket(dataPacket.id, "MOVE");
+			dp.position = ServerProtocol.gameModel.moveObject(dataPacket.id, dataPacket.dx, dataPacket.dy);
 			break;
 
 		default:
@@ -69,7 +67,6 @@ public class ServerProtocol {
 		}
 		
 		private boolean isPointWithinBounds(Point p){
-			System.out.println("x: " + p.x + " y: " + p.y + " x2: " + p.x + this.objectDimension.width + " y2: " + p.y + this.objectDimension.height);
 			return (this.min <= p.x) && (p.x + this.objectDimension.width <= this.max) && (this.min <= p.y) && (p.y + this.objectDimension.height <= this.max);
 		}
 		

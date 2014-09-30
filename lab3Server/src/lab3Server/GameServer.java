@@ -1,36 +1,29 @@
 package lab3Server;
 
 import java.net.*;
-import java.awt.Point;
+import java.util.Vector;
 import java.io.*;
 
 public class GameServer {
     public static void main(String[] args) throws IOException {
+
+    	Vector<DataPacket> output = new Vector<DataPacket>();
          
  
         int portNumber = 12000;
 
  
-        Point point = new Point(100,100);
-        
-        System.out.println("hello world");
         try ( 
-            ServerSocket serverSocket = new ServerSocket(portNumber);
-            Socket clientSocket = serverSocket.accept();
-            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-        	ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+        	ServerSocket serverSocket = new ServerSocket(portNumber);
         	){
- 
-        	ServerProtocol sp = new ServerProtocol();
-        	DataPacket in,out;
-
+        	Socket socket;
 
         	while(true){
-        		in = (DataPacket)ois.readObject();
-        		out = sp.processDataPacket(in);
-        		oos.writeObject(out);
+        		if((socket = serverSocket.accept()) != null){
+        			new OutgoingThread(socket, output).start();;
+        			new IncomingThread(socket, output).start();;
+        		}
         	}
-        	
         } catch (Exception e) {
             System.out.println("Exception caught when trying to listen on port "
                 + portNumber + " or listening for a connection");
