@@ -6,13 +6,12 @@ import java.io.*;
 
 public class GameServer {
     public static void main(String[] args) throws IOException {
+    	Vector<ObjectOutputStream> clients = new Vector<ObjectOutputStream>();
+    	GameModel gameModel = new GameModel();
+    	int nextId  = 1;
 
-    	Vector<DataPacket> output = new Vector<DataPacket>();
-         
- 
         int portNumber = 12000;
 
- 
         try ( 
         	ServerSocket serverSocket = new ServerSocket(portNumber);
         	){
@@ -20,8 +19,8 @@ public class GameServer {
 
         	while(true){
         		if((socket = serverSocket.accept()) != null){
-        			new OutgoingThread(socket, output).start();;
-        			new IncomingThread(socket, output).start();;
+        			new GameThread(socket, clients, nextId,gameModel).start();
+        			nextId++;
         		}
         	}
         } catch (Exception e) {

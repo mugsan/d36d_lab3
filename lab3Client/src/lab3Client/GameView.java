@@ -1,6 +1,5 @@
 package lab3Client;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,6 +11,7 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public class GameView extends JFrame {
 	private Map<Integer, GameObject> views;
+
 	private int speed = 3;
 	private boolean moved = false;
 	private int dx = 0;
@@ -22,10 +22,10 @@ public class GameView extends JFrame {
 		this.setSize(404,429);
 		this.setTitle("someGame");
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
 		this.addKeyListener(new KeyListener() {
+
 			
 			@Override
 			public void keyTyped(KeyEvent e) {}
@@ -75,10 +75,9 @@ public class GameView extends JFrame {
 		});
 	}		
 	
-	public void addObject(int arg_id, Point p){
-		Color color = Color.red;
-		GameObject gO = new GameObject(p, color);
-		this.views.put(arg_id, gO);
+	public void addObject(int id, GameObject gO){
+		System.out.println("Object added");
+		this.views.put(id, gO);
 		this.add(gO);
 		this.validate();
 	}
@@ -86,6 +85,14 @@ public class GameView extends JFrame {
 	public void moveObjectTo(int id, Point p){
 		this.views.get(id).moveTo(p);
 	}
+	
+	public void removeObject(int id){
+		GameObject gO = this.views.get(id);
+		this.views.remove(id);
+		this.remove(gO);
+		this.validate();
+	}
+
 
 	public int getDx() {
 		return dx;
