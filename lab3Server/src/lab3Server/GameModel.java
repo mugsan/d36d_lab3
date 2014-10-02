@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 public class GameModel{
@@ -41,7 +40,8 @@ public class GameModel{
 	
 	@SuppressWarnings("unchecked")
 	public Map.Entry<Integer, Point>[] getObjects(){
-		return (Map.Entry<Integer, Point>[])(this.objects.entrySet().toArray(new Map.Entry[this.objects.size()]));
+		Map.Entry<Integer, Point>[] entries = (Map.Entry<Integer, Point>[])(this.objects.entrySet().toArray(new Map.Entry[this.objects.size()]));
+		return entries;
 	}
 
 	private Point createRandomPoint(){

@@ -17,9 +17,10 @@ public class GameServer {
         	){
         	Socket socket;
 
+        	System.out.println("Server running...");
         	while(true){
         		if((socket = serverSocket.accept()) != null){
-        			new GameThread(socket, clients, nextId,gameModel).start();
+        			new GameServerThread(socket, clients, nextId,gameModel).start();
         			nextId++;
         		}
         	}
