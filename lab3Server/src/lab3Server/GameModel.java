@@ -20,6 +20,9 @@ public class GameModel{
 	
 	public Point addObject(int id){
 		Point p = this.createRandomPoint();
+		while (this.collisionCheckAll(p)){
+			p = this.createRandomPoint();
+		}
         this.objects.put(id, p);
 		return p;
 	}
@@ -27,7 +30,7 @@ public class GameModel{
 	public Point moveObject(int id, Point direction){
 		Point p = this.objects.get(id);
 		Point tmp = new Point(p.x + direction.x, p.y + direction.y);
-		if(this.isPointWithinBounds(tmp) && this.collisionCheckAll(tmp)){
+		if(this.isPointWithinBounds(tmp) && !this.collisionCheckAll(tmp)){
 			this.objects.put(id, tmp);
 			return tmp;
 		}else{
@@ -59,7 +62,7 @@ public class GameModel{
 	}
 	
 	private boolean collisionCheckAll(Point a){
-		Point[] array = (Point[])(this.objects.values().toArray());
+		Point[] array = (Point[])(this.objects.values().toArray(new Point[this.objects.values().size()]));
 		int collisions = 0;
 		for(int i = 0,len = array.length; i < len; i++){
 			collisions += this.collisionCheckSingle(a, array[i]);

@@ -36,6 +36,8 @@ public class ServerProtocol {
 			if((out.position = this.gameModel.moveObject(msg.id, msg.direction)) != null){
 				out.id   = this.id;
 				out.type = MsgType.PlayerMoved;
+			}else{
+				out = null;
 			}
 			break;
 			

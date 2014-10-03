@@ -60,7 +60,7 @@ public class GameClientThread extends Thread{
 			
 				this.gameView.revalidate();
 				this.gameView.repaint();
-				Thread.sleep(1000/30);
+				Thread.sleep(1000/90);
 			}
 			System.out.println("Game Client Out.");
 		}catch(Exception e){

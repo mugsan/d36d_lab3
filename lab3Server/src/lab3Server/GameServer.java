@@ -8,8 +8,8 @@ public class GameServer {
     public static void main(String[] args) throws IOException {
     	Vector<ObjectOutputStream> clients = new Vector<ObjectOutputStream>();
     	GameModel gameModel = new GameModel();
-    	int nextId  = 1;
 
+    	int nextId  = 1;
         int portNumber = 12000;
 
         try ( 

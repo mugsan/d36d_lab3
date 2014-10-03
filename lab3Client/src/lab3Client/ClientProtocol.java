@@ -19,7 +19,7 @@ public class ClientProtocol {
 	//Keyboard vars
 	private int        dx = 0;
 	private int        dy = 0;
-	private int     speed = 5;
+	private int     speed = 1;
 	private boolean moved = false;
 
 	public ClientProtocol(GameView gameView){

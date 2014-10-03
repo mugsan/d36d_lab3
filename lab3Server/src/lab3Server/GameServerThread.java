@@ -75,7 +75,8 @@ public class GameServerThread extends Thread{
 			while(this.protocol.getState() != ServerState.Disconnecting){
 				in 	   = (Msg)ois.readObject();
 				out    = this.protocol.processMsg(in);
-				this.broadcastMsg(out);
+				if(out != null) this.broadcastMsg(out);
+				//this.broadcastMsg(out);
 			}
 			this.clients.remove(oos);
 			System.out.println("Player #" + this.clientID + ": left.");
