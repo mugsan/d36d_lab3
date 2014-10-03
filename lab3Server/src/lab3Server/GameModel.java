@@ -2,6 +2,7 @@ package lab3Server;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -26,7 +27,7 @@ public class GameModel{
 	public Point moveObject(int id, Point direction){
 		Point p = this.objects.get(id);
 		Point tmp = new Point(p.x + direction.x, p.y + direction.y);
-		if(this.isPointWithinBounds(tmp)){
+		if(this.isPointWithinBounds(tmp) && this.collisionCheckAll(tmp)){
 			this.objects.put(id, tmp);
 			return tmp;
 		}else{
@@ -48,6 +49,22 @@ public class GameModel{
 		int randX = rand.nextInt((this.max - this.min - this.objectDimension.width) + 1) + this.min;
 		int randY = rand.nextInt((this.max - this.min - this.objectDimension.height) + 1) + this.min;
 		return new Point(randX, randY);
+	}
+	
+	private int collisionCheckSingle(Point a, Point b){
+		Rectangle rectA = new Rectangle(a, this.objectDimension);
+		Rectangle rectB = new Rectangle(b, this.objectDimension);
+		
+		return (rectA.intersects(rectB))? 1:0;
+	}
+	
+	private boolean collisionCheckAll(Point a){
+		Point[] array = (Point[])(this.objects.values().toArray());
+		int collisions = 0;
+		for(int i = 0,len = array.length; i < len; i++){
+			collisions += this.collisionCheckSingle(a, array[i]);
+		}
+		return (collisions > 1);
 	}
 	
 	private boolean isPointWithinBounds(Point p){
