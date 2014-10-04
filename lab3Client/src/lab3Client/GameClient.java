@@ -5,14 +5,8 @@ import java.io.*;
 import java.net.InetAddress;
 
 public class GameClient {
-	
-	public GameClient(){
-	}
-	
-	public void init(){
-	}
-
     public static void main(String[] args) throws IOException {
+
     	InetAddress adr = InetAddress.getByName("localhost");
 		new GameClientThread(adr, 12000).start();
     }

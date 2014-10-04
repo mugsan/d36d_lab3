@@ -17,8 +17,10 @@ public class GameServer {
 	
 	
 	public GameServer(){
+		
 		this.gameModel = new GameModel();
 		this.clientOos = new Vector<ObjectOutputStream>();
+		
 	}
 	
 	public void init(){	
