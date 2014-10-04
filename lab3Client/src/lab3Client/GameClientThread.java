@@ -21,19 +21,21 @@ public class GameClientThread extends Thread{
 	private ClientProtocol protocol = null;
 	
 	//Connection details
-	private InetAddress mCAdr = null;
-	private InetAddress  host = null;
-	private int          port = 0;
-	private int      buffSize = 1024;
+	private InetAddress multicastAddress = null;
+	private InetAddress  			host = null;
+	private int          			port = 0;
+	private int      			buffSize = Config.BUF_SIZE;
 
 	
-	public GameClientThread(String host, int port) throws UnknownHostException{
-		//Need reference to repaint in loop.
+	public GameClientThread(InetAddress host, int port) throws UnknownHostException{
+
 		this.gameView = new GameView();
 		this.protocol = new ClientProtocol(this.gameView);
-		this.mCAdr = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
-		this.host = InetAddress.getByName(host); 
-		this.port = port;
+
+		this.multicastAddress = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
+		this.host         	  = host; 
+		this.port     		  = port;
+
 	}
 	
 	private Msg receiveDatagramFrom(MulticastSocket socket){
@@ -60,7 +62,6 @@ public class GameClientThread extends Thread{
 	private void sendMsgInDatagram(DatagramSocket socket, Msg msg){
 		try{
 
-			System.out.println("SND - Client.");
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream     oos = new ObjectOutputStream(baos);
 			
@@ -81,11 +82,10 @@ public class GameClientThread extends Thread{
 	public void run() {
 		try( 
 				Socket s = new Socket(this.host, this.port);
+				
 				ObjectOutputStream   oos = new ObjectOutputStream(s.getOutputStream());
 				DatagramSocket datSocket = new DatagramSocket();
-				MulticastSocket      mcs = new MulticastSocket(Config.MULTICASTSOCKET_PORT_NUMBER); 
 		){
-			mcs.joinGroup(this.mCAdr);
 			
 			//TCP listener.
 			new Thread(){
@@ -112,11 +112,18 @@ public class GameClientThread extends Thread{
 				GameClientThread that = null;
 				@Override
 				public void run(){
-					while(that.protocol.getState() != ClientState.Disconnected){
-						if(mcs.isClosed()) while(true){};
 					
-						Msg in = that.receiveDatagramFrom(mcs);
-						if(in != null) that.protocol.processMsg(in);
+					try(
+						MulticastSocket mcs = new MulticastSocket(Config.MULTICASTSOCKET_PORT_NUMBER);
+					){
+						mcs.joinGroup(that.multicastAddress);
+						while(that.protocol.getState() != ClientState.Disconnected){
+							Msg in = that.receiveDatagramFrom(mcs);
+							if(in != null) that.protocol.processMsg(in);
+						}
+						mcs.leaveGroup(that.multicastAddress);
+					}catch(Exception e){
+						e.printStackTrace();
 					}
 				}
 				private Thread init(GameClientThread that){

@@ -27,12 +27,12 @@ public class GameServerTCPThread extends Thread{
 	public GameServerTCPThread(Socket socket,
 	    Vector<ObjectOutputStream> clients, 
 							   int clientID, 
-					ServerProtocol protocol) throws UnknownHostException{
+					     GameModel gameView) throws UnknownHostException{
 		
 		this.socket        = socket;
 		this.clients       = clients;
 		this.clientID      = clientID;
-		this.protocol      = protocol;
+		this.protocol      = new ServerProtocol(gameView);
 
 	}
 	
@@ -91,6 +91,12 @@ public class GameServerTCPThread extends Thread{
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println(e.toString());
+		}finally{
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}	
 

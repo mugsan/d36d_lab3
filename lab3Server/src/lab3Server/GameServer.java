@@ -8,7 +8,7 @@ import lab3DataPacket.Msg;
 import config.Config;
 
 public class GameServer {
-	private ServerProtocol              protocol = null;
+	private GameModel 				   gameModel = null;
 	private Vector<ObjectOutputStream> clientOos = null;
 
 	private int incPort = Config.TCP_PORT_NUMBER;
@@ -17,7 +17,7 @@ public class GameServer {
 	
 	
 	public GameServer(){
-		this.protocol  = new ServerProtocol(new GameModel());
+		this.gameModel = new GameModel();
 		this.clientOos = new Vector<ObjectOutputStream>();
 	}
 	
@@ -28,11 +28,11 @@ public class GameServer {
 	        	
         	Socket socket;
 
-        	new GameServerUDPThread(this.protocol).start();
+        	new GameServerUDPThread(this.gameModel).start();
 
         	while(true){
         		if((socket = serverSocket.accept()) != null){
-        			new GameServerTCPThread(socket, this.clientOos, nextId,this.protocol).start();
+        			new GameServerTCPThread(socket, this.clientOos, nextId,this.gameModel).start();
         			nextId++;
         		}
         	}
@@ -43,6 +43,7 @@ public class GameServer {
 	}
 
     public static void main(String[] args) throws IOException {
+    	System.out.println("Server starting...");
     	GameServer gs = new GameServer();
     	gs.init();
     }

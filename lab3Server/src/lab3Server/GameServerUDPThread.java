@@ -21,11 +21,13 @@ public class GameServerUDPThread extends Thread{
 	private int            multicastPort = 0;
 	private int              inboundPort = 0;
 
-	public GameServerUDPThread(ServerProtocol protocol) throws UnknownHostException{
+	public GameServerUDPThread(GameModel gameModel) throws UnknownHostException{
+		
 		this.multicastAddress = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
 		this.multicastPort    = Config.MULTICASTSOCKET_PORT_NUMBER;
 		this.inboundPort      = Config.TCP_PORT_NUMBER;
-		this.protocol  		  = protocol;
+		this.protocol  		  = new ServerProtocol(gameModel);
+		
 	}
 
 	private Msg receiveDatagramFrom(DatagramSocket socket){
@@ -73,13 +75,15 @@ public class GameServerUDPThread extends Thread{
 	@Override
 	public void run(){
 			try (
-				DatagramSocket ds = new DatagramSocket(this.inboundPort);
+				DatagramSocket  ds = new DatagramSocket(this.inboundPort);
 				MulticastSocket ms = new MulticastSocket();
 			){
                 Msg in,out;
                 while(this.protocol.getState() != ServerState.Disconnecting){
+                	System.out.println("ReceiveDGP");
                     in = this.receiveDatagramFrom(ds);
                     if(in != null){
+                    	System.out.println("UDP wanted to move.");
                         out = this.protocol.processMsg(in);
                         if(out != null) this.sendMsgInDatagram(ms, out);
                     }
