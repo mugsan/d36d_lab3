@@ -74,22 +74,23 @@ public class GameServerUDPThread extends Thread{
 	
 	@Override
 	public void run(){
-			try (
-				DatagramSocket  ds = new DatagramSocket(this.inboundPort);
-				MulticastSocket ms = new MulticastSocket();
-			){
-                Msg in,out;
-                while(this.protocol.getState() != ServerState.Disconnecting){
-                	System.out.println("ReceiveDGP");
-                    in = this.receiveDatagramFrom(ds);
-                    if(in != null){
-                    	System.out.println("UDP wanted to move.");
-                        out = this.protocol.processMsg(in);
-                        if(out != null) this.sendMsgInDatagram(ms, out);
-                    }
-                }	
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		try (
+
+			DatagramSocket  ds = new DatagramSocket(this.inboundPort);
+			MulticastSocket ms = new MulticastSocket();
+					
+		){
+            Msg in,out;
+
+            while(this.protocol.getState() != ServerState.Disconnecting){
+                in = this.receiveDatagramFrom(ds);
+                if(in != null){
+                    out = this.protocol.processMsg(in);
+                    if(out != null) this.sendMsgInDatagram(ms, out);
+                }
+            }	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
