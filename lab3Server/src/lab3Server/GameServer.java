@@ -20,7 +20,7 @@ public class GameServer {
         	System.out.println("Server running...");
         	while(true){
         		if((socket = serverSocket.accept()) != null){
-        			new GameServerThread(socket, clients, nextId,gameModel).start();
+        			new GameServerThread(socket, clients, nextId,gameModel, portNumber).start();
         			nextId++;
         		}
         	}

@@ -40,12 +40,12 @@ public class ClientProtocol {
 				case 37:
 				case 39:
 					that.dx = 0;
-					that.moved = false;
+					that.moved = (that.dy != 0);
 					break;
 				case 38:
 				case 40:
 					that.dy = 0;
-					that.moved = false;
+					that.moved = (that.dx != 0);
 					break;
 				default:
 					break;
