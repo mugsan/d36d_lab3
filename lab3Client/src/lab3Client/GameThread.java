@@ -15,7 +15,7 @@ import config.Config;
 import lab3DataPacket.Msg;
 import lab3DataPacket.MsgType;
 
-public class GameClientThread extends Thread{
+public class GameThread extends Thread{
 
 	private GameView 	   gameView = null;
 	private ClientProtocol protocol = null;
@@ -27,7 +27,7 @@ public class GameClientThread extends Thread{
 	private int      			buffSize = Config.BUF_SIZE;
 
 	
-	public GameClientThread(InetAddress host, int port) throws UnknownHostException{
+	public GameThread(InetAddress host, int port) throws UnknownHostException{
 
 		this.gameView = new GameView();
 		this.protocol = new ClientProtocol(this.gameView);
@@ -89,7 +89,7 @@ public class GameClientThread extends Thread{
 			
 			//TCP listener.
 			new Thread(){
-				GameClientThread that = null;
+				GameThread that = null;
 				@Override
 				public void run(){
 					try( ObjectInputStream ois = new ObjectInputStream(s.getInputStream());){
@@ -101,7 +101,7 @@ public class GameClientThread extends Thread{
 						System.out.println("TCPListener: " + e.toString());
 					}
 				}
-				private Thread init(GameClientThread that){
+				private Thread init(GameThread that){
 					this.that = that;
 					return this;
 				}
@@ -109,7 +109,7 @@ public class GameClientThread extends Thread{
 			
 			//UDP Listener.
 			new Thread(){
-				GameClientThread that = null;
+				GameThread that = null;
 				@Override
 				public void run(){
 					
@@ -126,7 +126,7 @@ public class GameClientThread extends Thread{
 						e.printStackTrace();
 					}
 				}
-				private Thread init(GameClientThread that){
+				private Thread init(GameThread that){
 					this.that = that;
 					return this;
 				}
