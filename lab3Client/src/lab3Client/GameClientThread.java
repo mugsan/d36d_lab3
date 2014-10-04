@@ -11,6 +11,7 @@ import java.net.MulticastSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import config.Config;
 import lab3DataPacket.Msg;
 import lab3DataPacket.MsgType;
 
@@ -23,7 +24,6 @@ public class GameClientThread extends Thread{
 	private InetAddress mCAdr = null;
 	private InetAddress  host = null;
 	private int          port = 0;
-	private int        mcPort = 13921;
 	private int      buffSize = 1024;
 
 	
@@ -31,7 +31,7 @@ public class GameClientThread extends Thread{
 		//Need reference to repaint in loop.
 		this.gameView = new GameView();
 		this.protocol = new ClientProtocol(this.gameView);
-		this.mCAdr = InetAddress.getByName("239.0.42.99");
+		this.mCAdr = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
 		this.host = InetAddress.getByName(host); 
 		this.port = port;
 	}
@@ -41,20 +41,17 @@ public class GameClientThread extends Thread{
 		Msg msg = null;
 
 		try { 
-			System.out.println("RCV - Client.");
 			byte[]     buffer = new byte[this.buffSize];
 			DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
 
-			System.out.println("about to recive.");
 			socket.receive(dp);
-			System.out.println("received?");
 			
 			ByteArrayInputStream bais = new ByteArrayInputStream(dp.getData());
 			ObjectInputStream     ois = new ObjectInputStream(bais);
 			
 			msg = (Msg)ois.readObject();
 		}catch(Exception e){
-			System.out.println("receiveDatagram: " + e.toString());
+			e.printStackTrace();
 		}
 
 		return msg;
@@ -76,7 +73,7 @@ public class GameClientThread extends Thread{
 			socket.send(dp);
 
 		}catch(Exception e){
-			System.out.println("sendMsgInDatagram: " + e.toString());
+			e.printStackTrace();
 		}
 	}
 
@@ -86,7 +83,7 @@ public class GameClientThread extends Thread{
 				Socket s = new Socket(this.host, this.port);
 				ObjectOutputStream   oos = new ObjectOutputStream(s.getOutputStream());
 				DatagramSocket datSocket = new DatagramSocket();
-				MulticastSocket      mcs = new MulticastSocket(this.mcPort); 
+				MulticastSocket      mcs = new MulticastSocket(Config.MULTICASTSOCKET_PORT_NUMBER); 
 		){
 			mcs.joinGroup(this.mCAdr);
 			
@@ -116,6 +113,7 @@ public class GameClientThread extends Thread{
 				@Override
 				public void run(){
 					while(that.protocol.getState() != ClientState.Disconnected){
+						if(mcs.isClosed()) while(true){};
 					
 						Msg in = that.receiveDatagramFrom(mcs);
 						if(in != null) that.protocol.processMsg(in);
@@ -149,8 +147,7 @@ public class GameClientThread extends Thread{
 			}
 			System.out.println("Game Client Disconnected.");
 		}catch(Exception e){
-			e.getStackTrace();
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 }

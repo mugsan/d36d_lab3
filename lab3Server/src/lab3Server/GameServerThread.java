@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import config.Config;
 import lab3DataPacket.Msg;
 
 
@@ -31,19 +32,22 @@ public class GameServerThread extends Thread{
 	
 	//UDP vars.
 	private InetAddress multiCAddress = null;
+
+	//UDP unicast info.
 	private InetAddress clientAddress = null;
 	private int            clientPort = 0;
-	private int              hostPort = 0;
-	private int                mcPort = 13921;
-	private int 	         buffSize = 1024;
 	
-	public GameServerThread(Socket socket, Vector<ObjectOutputStream> clients, int clientID, GameModel gameModel, int hostPort) throws UnknownHostException{
-		this.hostPort  = hostPort;
-		this.socket    = socket;
-		this.clients   = clients;
-		this.clientID  = clientID;
-		this.protocol  = new ServerProtocol(gameModel, clientID);
-		this.multiCAddress = InetAddress.getByName("239.0.42.99");
+	public GameServerThread(Socket socket,
+	   Vector<ObjectOutputStream> clients, 
+							 int clientID, 
+					  GameModel gameModel) throws UnknownHostException{
+		
+		this.socket        = socket;
+		this.clients       = clients;
+		this.clientID      = clientID;
+		this.protocol      = new ServerProtocol(gameModel, clientID);
+		this.multiCAddress = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
+
 	}
 	
 	private void sendMsg(Msg msg) throws IOException{
@@ -65,7 +69,7 @@ public class GameServerThread extends Thread{
 
 		try { 
 			
-			byte[]     buffer = new byte[this.buffSize];
+			byte[]     buffer = new byte[Config.BUF_SIZE];
 			DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
 
 			socket.receive(dp);
@@ -79,6 +83,7 @@ public class GameServerThread extends Thread{
 			
 			msg = (Msg)ois.readObject();
 		}catch(Exception e){
+			e.printStackTrace();
 			System.out.println("receiveDatagram: " + e.toString());
 		}
 
@@ -97,7 +102,7 @@ public class GameServerThread extends Thread{
 			
 			byte[] data = baos.toByteArray();
 			
-			DatagramPacket dp = new DatagramPacket(data, data.length, this.multiCAddress, this.mcPort);
+			DatagramPacket dp = new DatagramPacket(data, data.length, this.multiCAddress, Config.MULTICASTSOCKET_PORT_NUMBER);
 //			DatagramPacket dp = new DatagramPacket(data, data.length, this.clientAddress, this.clientPort);
 			socket.send(dp);
 
@@ -112,7 +117,7 @@ public class GameServerThread extends Thread{
 		try(
 			ObjectOutputStream   oos = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream    ois = new ObjectInputStream(socket.getInputStream());
-			DatagramSocket datSocket = new DatagramSocket(this.hostPort);
+			DatagramSocket datSocket = new DatagramSocket(Config.TCP_PORT_NUMBER);
 			MulticastSocket      mcs = new MulticastSocket();
 		){
 			this.oos = oos;
@@ -169,7 +174,7 @@ public class GameServerThread extends Thread{
 			System.out.println("Player #" + this.clientID + ": left.");
 
 		}catch(Exception e){
-			e.getStackTrace();
+			e.printStackTrace();
 			System.out.println(e.toString());
 		}
 	}	
