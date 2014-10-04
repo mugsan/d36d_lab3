@@ -179,4 +179,8 @@ public class ClientProtocol {
 	public ClientState getState(){
 		return this.state;
 	}
+	
+	public GameView getView(){
+		return this.gameView;
+	}
 }

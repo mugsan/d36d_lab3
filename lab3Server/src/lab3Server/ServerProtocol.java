@@ -11,11 +11,9 @@ import lab3DataPacket.MsgType;
 public class ServerProtocol {
 	private GameModel gameModel = null;
 	private ServerState   state = null;
-	private int              id = 0;
 	
-	public ServerProtocol(GameModel gameModel,int id){
+	public ServerProtocol(GameModel gameModel){
 		this.gameModel = gameModel;
-		this.id 	   = id;
 	}
 	
 	public Msg processMsg(Msg msg){
@@ -23,9 +21,8 @@ public class ServerProtocol {
 		switch (msg.type) {
 		case Join:
 
-			//Send join confirmation and clients new id.
 			out 	   = new Msg();
-			out.id 	   = this.id;
+			out.id 	   = msg.id;
 			out.type   = MsgType.Join;
 			this.state = ServerState.Connected;
 			break;
@@ -34,7 +31,7 @@ public class ServerProtocol {
 
 			out = new Msg();
 			if((out.position = this.gameModel.moveObject(msg.id, msg.direction)) != null){
-				out.id   = this.id;
+				out.id   = msg.id;
 				out.type = MsgType.PlayerMoved;
 			}else{
 				out = null;
@@ -45,10 +42,10 @@ public class ServerProtocol {
 			System.out.println("Player left.");
 
 			out      = new Msg();
-			out.id   = this.id;
+			out.id   = msg.id;
 			out.type = MsgType.PlayerLeft;
 
-			this.gameModel.removeObject(this.id);
+			this.gameModel.removeObject(msg.id);
 
 			this.state = ServerState.Disconnecting;
 			break;
@@ -60,12 +57,12 @@ public class ServerProtocol {
 		return out;
 	}
 	
-	public Msg addClientToModel(){
+	public Msg addClientToModel(int id){
 
         Msg out 		 = new Msg();
-            out.id 		 = this.id;
+            out.id 		 = id;
             out.type  	 = MsgType.NewPlayer;
-            out.position = gameModel.addObject(this.id);
+            out.position = gameModel.addObject(id);
 
 		return out;
 	}
