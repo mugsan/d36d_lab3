@@ -5,14 +5,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.SocketAddress;
 
 import config.Config;
 
 public class GameServerDSD extends Thread{
 	private InetAddress clientAddress = null;
 	private int            clientPort = 0;
-	private SocketAddress     address = null;
 	
 	private String receive(MulticastSocket socket) throws IOException{
 		
@@ -24,7 +22,6 @@ public class GameServerDSD extends Thread{
 		
 		this.clientAddress = dp.getAddress();
 		this.clientPort    = dp.getPort();
-		this.address       = dp.getSocketAddress();
 		
 
 		return new String(dp.getData(),0 ,dp.getLength());
@@ -44,9 +41,9 @@ public class GameServerDSD extends Thread{
 	public void run(){
 		try( 
 			DatagramSocket   ds = new DatagramSocket();
-			MulticastSocket mcs = new MulticastSocket(1900);
+			MulticastSocket mcs = new MulticastSocket(Config.DSD_PORT);
 		){
-			InetAddress address = InetAddress.getByName("239.255.255.250");
+			InetAddress address = InetAddress.getByName(Config.DSD_ADDRESS);
 			mcs.joinGroup(address);
 			while(true){
 				String str = this.receive(mcs);

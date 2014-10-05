@@ -15,6 +15,7 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -53,7 +54,7 @@ public class GameClientViewController extends Thread{
 	
 	
 	//Models
-	private Vector<String> listModel = null;
+	private volatile Vector<String> listModel = null;
 	
 	//----
 				
@@ -160,16 +161,17 @@ public class GameClientViewController extends Thread{
 		
 	}
 	
-	private void addUrlToList(String string) throws UnknownHostException{
+	
+	private synchronized void addUrlToList(String string) throws UnknownHostException{
 
 		String[] strArray = string.split(" ");
 		
 		String address,port,name;
 		
-		
 		for(String str: strArray){
 			System.out.println("Array: " + str);
 		}
+		System.out.println("VectorSize: " + this.listModel.size());
 
 		if(!(strArray[0].equals("SERVICE") && strArray[1].equals("REPLY") && strArray[2].equals("JavaGameServer"))) return;
 		
@@ -178,7 +180,6 @@ public class GameClientViewController extends Thread{
 		address = strArray[4];
 		port = strArray[5];
 
-		System.out.println("waddafakk");
 		
 		if(this.addressStorage.get(name) == null){
 
@@ -189,6 +190,7 @@ public class GameClientViewController extends Thread{
 			this.addressStorage.put(name,li);
 			this.listModel.add(name);
 			this.serverList.updateUI();
+			
 		}
 	}
 	
@@ -244,7 +246,7 @@ public class GameClientViewController extends Thread{
 			while(!this.isPlaying){
 				if(this.isScanning){
 					this.send(ds, ia);
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				}
 			}
 		}catch(Exception e){
