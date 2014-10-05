@@ -114,21 +114,12 @@ public class GameClientViewController extends Thread{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String str = that.searchField.getText();
-				InetAddress[] adrs;
-				InetAddress adr;
-
 				
 				if(str.length() > 0){
 					try {
 
-						adr = InetAddress.getByName(str);
-
-						adrs = Inet6Address.getAllByName(str);
-						for(InetAddress addr : adrs){
-							if(addr instanceof Inet6Address){
-								adr = (Inet6Address)addr;
-							}
-						}
+						InetAddress adr = that.getIpv6Address(str);
+						if(adr == null) adr = InetAddress.getByName(str); 
 
 						that.addressField.setText(adr.getHostAddress());
 						
@@ -157,8 +148,20 @@ public class GameClientViewController extends Thread{
 				return this;
 			}
 		}.init(this));
+	}
+	
+	private Inet6Address getIpv6Address(String string) throws UnknownHostException{
+		Inet6Address i6a = null;
 		
+		InetAddress[] ias = InetAddress.getAllByName(string);
 		
+		for(InetAddress ia: ias){
+			if(ia instanceof Inet6Address){
+				i6a = (Inet6Address)ia;
+			}
+		}
+		
+		return i6a;
 	}
 	
 	
@@ -169,9 +172,8 @@ public class GameClientViewController extends Thread{
 		String address,port,name;
 		
 		for(String str: strArray){
-			System.out.println("Array: " + str);
+			System.out.println("Info: " + str);
 		}
-		System.out.println("VectorSize: " + this.listModel.size());
 
 		if(!(strArray[0].equals("SERVICE") && strArray[1].equals("REPLY") && strArray[2].equals("JavaGameServer"))) return;
 		
@@ -203,6 +205,7 @@ public class GameClientViewController extends Thread{
 		socket.receive(dp);
 
 		return new String(dp.getData(),0 ,dp.getLength());
+		
 	}
 	
 	private void send(DatagramSocket socket, InetAddress ia) throws IOException{

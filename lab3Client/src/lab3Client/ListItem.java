@@ -4,5 +4,5 @@ import java.net.InetAddress;
 
 public class ListItem {
 	public InetAddress address = null;
-	public int port = 0;
+	public int 		      port = 0;
 }
