@@ -1,30 +1,37 @@
 
 
+
 package lab3Client;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
-import javax.swing.ListModel;
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
-public class GameClientViewController {
+import config.Config;
+
+public class GameClientViewController extends Thread{
 	
+	private boolean       isScanning = false;
+	private boolean        isPlaying = false;
 	
 	//Views for Structure.
 	private JFrame             frame = null;
@@ -33,8 +40,9 @@ public class GameClientViewController {
 
 
 	//ListView components.
-	private JList<String> serverList = null;
-	private JScrollPane   serverPane = null;
+	private Map<String, ListItem> addressStorage = null;
+	private JList<String>  			  serverList = null;
+	private JScrollPane     		  serverPane = null;
 	
 	
 	//UserInput.
@@ -55,8 +63,9 @@ public class GameClientViewController {
 	public GameClientViewController(){
 
 		//Model init.
-		this.listModel = new Vector<String>();
-		this.serverList = new JList<String>(this.listModel);
+		this.addressStorage = new HashMap<String, ListItem>();
+		this.listModel      = new Vector<String>();
+		this.serverList 	= new JList<String>(this.listModel);
 
 		//Main frame.
 		this.frame = new JFrame("Server List");
@@ -103,7 +112,6 @@ public class GameClientViewController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Pressed searchButton");
 				String str = that.searchField.getText();
 				InetAddress[] adrs;
 				InetAddress adr;
@@ -112,26 +120,20 @@ public class GameClientViewController {
 				if(str.length() > 0){
 					try {
 
-						adrs = Inet6Address.getAllByName(str);
 						adr = InetAddress.getByName(str);
 
+						adrs = Inet6Address.getAllByName(str);
 						for(InetAddress addr : adrs){
 							if(addr instanceof Inet6Address){
-								System.out.println("ghetto");
 								adr = (Inet6Address)addr;
 							}
 						}
-						
-						
-						
-						
 
 						that.addressField.setText(adr.getHostAddress());
 						
 					} catch (Exception e2) {
 						that.addressField.setText("No address found!");
 					}
-					
 				}
 			}
 			private ActionListener init(GameClientViewController that){
@@ -139,18 +141,120 @@ public class GameClientViewController {
 				return this;
 			}
 		}.init(this));
+		
+		
+		
+		this.scanButton.addItemListener(new ItemListener() {
+			GameClientViewController that = null;
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				that.isScanning = that.scanButton.isSelected();
+			}
+			private ItemListener init(GameClientViewController that){
+				this.that = that;
+				return this;
+			}
+		}.init(this));
+		
+		
 	}
 	
-	public void addShit(){
-		for(int i = 0,len = 34; i < len; i++){
-			this.listModel.add("LOREM DIPSUM CHECKSUM SHITSUM");
+	private void addUrlToList(String string) throws UnknownHostException{
+
+		String[] strArray = string.split(" ");
+		
+		String address,port,name;
+		
+		
+		for(String str: strArray){
+			System.out.println("Array: " + str);
 		}
-		this.serverList.updateUI();
+
+		if(!(strArray[0].equals("SERVICE") && strArray[1].equals("REPLY") && strArray[2].equals("JavaGameServer"))) return;
+		
+		
+		name = strArray[3];
+		address = strArray[4];
+		port = strArray[5];
+
+		System.out.println("waddafakk");
+		
+		if(this.addressStorage.get(name) == null){
+
+			ListItem li = new ListItem();
+			li.address  = InetAddress.getByName(address);
+			li.port     = Integer.parseInt(port);
+			
+			this.addressStorage.put(name,li);
+			this.listModel.add(name);
+			this.serverList.updateUI();
+		}
 	}
 	
+	private String receive(DatagramSocket socket) throws IOException{
+		
+		byte[] buffer = new byte[128];
+		
+		DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
+		
+		socket.receive(dp);
+
+		return new String(dp.getData(),0 ,dp.getLength());
+	}
+	
+	private void send(DatagramSocket socket, InetAddress ia) throws IOException{
+		
+		String msg = "SERVICE QUERY JavaGameServer";
+		
+		byte[] buffer = msg.getBytes();
+		
+		DatagramPacket dp = new DatagramPacket(buffer, buffer.length, ia, Config.DSD_PORT);
+		
+		socket.send(dp);
+
+	}
+	
+	@Override
+	public void run(){
+		try(
+			DatagramSocket ds = new DatagramSocket();
+		){
+			InetAddress ia = InetAddress.getByName(Config.DSD_ADDRESS);
+			
+			new Thread(){
+				GameClientViewController that = null;
+				@Override
+				public void run(){
+					while(!that.isPlaying){
+						try {
+							String str = that.receive(ds);
+							that.addUrlToList(str);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				private Thread init(GameClientViewController that){
+					this.that = that;
+					return this;
+				}
+			}.init(this).start();
+			
+			while(!this.isPlaying){
+				if(this.isScanning){
+					this.send(ds, ia);
+					Thread.sleep(1000);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
     public static void main(String[] args) throws IOException {
 
-    	new GameClientViewController();
+    	GameClientViewController gvc = new GameClientViewController();
+    	gvc.start();
 //    	InetAddress adr = InetAddress.getByName("localhost");
 //		new GameThread(adr, 12000).start();
     }

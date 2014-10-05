@@ -31,6 +31,7 @@ public class GameServer {
         	Socket socket;
 
         	new GameServerUDPThread(this.gameModel).start();
+        	new GameServerDSD().start();
 
         	while(true){
         		if((socket = serverSocket.accept()) != null){
