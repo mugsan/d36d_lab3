@@ -54,6 +54,9 @@ public class ServerProtocol {
 			break;
 		}
 
+		if(out != null){
+			System.out.println("Id: " + out.id);
+		}
 		return out;
 	}
 	

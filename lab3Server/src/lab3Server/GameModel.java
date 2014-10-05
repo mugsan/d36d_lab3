@@ -35,6 +35,7 @@ public class GameModel{
 	
 	public Point moveObject(int id, Point direction){
 
+		System.out.println("id: " + id + " x: " + direction.x + "y: " + direction.y);
 		Date date = new Date();
 		
 		Point   p = this.objects.get(id);
