@@ -51,6 +51,8 @@ public class GameThread extends Thread{
 
 			socket.receive(dp);
 			
+			if(!dp.getAddress().equals(this.host)) return null;
+			
 			ByteArrayInputStream bais = new ByteArrayInputStream(dp.getData());
 			ObjectInputStream     ois = new ObjectInputStream(bais);
 			
@@ -89,6 +91,9 @@ public class GameThread extends Thread{
 				ObjectOutputStream   oos = new ObjectOutputStream(s.getOutputStream());
 				DatagramSocket datSocket = new DatagramSocket();
 		){
+			
+			
+			
 			
 			//TCP listener.
 			new Thread(){
@@ -137,7 +142,9 @@ public class GameThread extends Thread{
 			
 			
 			
+			
 			Msg out;
+			
 			
 			//TCP&UDP sender.
 			while(this.protocol.getState() != ClientState.Disconnected){
@@ -158,7 +165,8 @@ public class GameThread extends Thread{
 			this.previousView.setVisible(true);
 			System.out.println("Game Client Disconnected.");
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println("MainGameThread: " + e.toString());
+			//e.printStackTrace();
 		}
 	}
 }

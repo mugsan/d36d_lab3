@@ -253,9 +253,6 @@ public class GameClientViewController extends Thread{
 		
 		String address,port,name;
 		
-		for(String str: strArray){
-			System.out.println("Info: " + str);
-		}
 
 		if(!(strArray[0].equals("SERVICE") && strArray[1].equals("REPLY") && strArray[2].equals("JavaGameServer"))) return;
 		

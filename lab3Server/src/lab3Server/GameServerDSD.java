@@ -48,12 +48,16 @@ public class GameServerDSD extends Thread{
 			while(true){
 				String str = this.receive(mcs);
 				
+				String sysOut = "Received something. ";
 				if(str.equals("SERVICE QUERY JavaGameServer")){
 					
-					System.out.println("Query from client.");
+					
+					sysOut += "-It was a Query from a new client.";
+
 					str = "SERVICE REPLY JavaGameServer " + Config.SERVER_NAME + " " + InetAddress.getLocalHost().getHostAddress() + " " + Config.TCP_PORT_NUMBER;
 					this.send(ds, str);
 				}
+				System.out.println(sysOut);
 			}
 //			mcs.leaveGroup(address);
 		}catch(Exception e){

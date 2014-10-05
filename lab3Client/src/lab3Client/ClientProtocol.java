@@ -155,6 +155,7 @@ public class ClientProtocol {
 		switch (msg.type) {
 		case Join:
 			System.out.println("Join Msg.id: " + msg.id + " This.id: " + this.id);
+			if(this.id != 0) break;
 			this.id = msg.id;
 			this.state = ClientState.Connected;
 			break;
