@@ -150,14 +150,15 @@ public class GameClientViewController extends Thread{
 		}.init(this));
 	}
 	
-	private Inet6Address getIpv6Address(String string) throws UnknownHostException{
-		Inet6Address i6a = null;
+	private InetAddress getIpv6Address(String string) throws UnknownHostException{
+		InetAddress i6a = null;
 		
 		InetAddress[] ias = InetAddress.getAllByName(string);
 		
 		for(InetAddress ia: ias){
 			if(ia instanceof Inet6Address){
-				i6a = (Inet6Address)ia;
+				i6a = (InetAddress)ia;
+				break;
 			}
 		}
 		
@@ -187,6 +188,7 @@ public class GameClientViewController extends Thread{
 
 			ListItem li = new ListItem();
 			li.address  = InetAddress.getByName(address);
+
 			li.port     = Integer.parseInt(port);
 			
 			this.addressStorage.put(name,li);
