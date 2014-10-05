@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
 import lab3DataPacket.Msg;
+import lab3DataPacket.MsgType;
 
 
 
@@ -88,6 +90,7 @@ public class GameServerTCPThread extends Thread{
 			this.clients.remove(oos);
 			System.out.println("Player #" + this.clientID + ": left.");
 
+		
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println(e.toString());

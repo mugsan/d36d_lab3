@@ -12,7 +12,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -20,7 +19,6 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -31,8 +29,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import config.Config;
 
@@ -66,11 +62,6 @@ public class GameClientViewController extends Thread{
 	private Map<String, ListItem> addressStorage = null;
 	private Vector<String>     	list = null;
 	
-	//----
-				
-	private ListItem  selectedServer = null;
-	
-	
 	public GameClientViewController(){
 
 		//Model init.
@@ -91,7 +82,6 @@ public class GameClientViewController extends Thread{
 
 		this.serverPane = new JScrollPane(this.serverList);
 		this.verticalPanel.add(this.serverPane);
-		//Insert list here.
 
 
 		this.horizontalPanel = new JPanel();
@@ -160,27 +150,7 @@ public class GameClientViewController extends Thread{
 			}
 
 		}.init(this));
-		
-		
-//		this.serverList.addListSelectionListener(new ListSelectionListener() {
-//
-//			GameClientViewController that = null;
-//			
-//			@Override
-//			public void valueChanged(ListSelectionEvent e) {
-//				String name = that.list.get(e.getFirstIndex());
-//				that.searchField.setText(name);  
-//				ListItem li = that.addressStorage.get(name);
-//				that.outputField.setText(li.address.getHostAddress());
-//				that.selectedAddress = li.address;
-//			}
-//
-//			private ListSelectionListener init(GameClientViewController that){
-//				this.that = that;
-//				return this;
-//			}
-//
-//		}.init(this));	
+
 
 		this.serverList.addMouseListener(new MouseAdapter() {
 			GameClientViewController that = null;
@@ -321,8 +291,8 @@ public class GameClientViewController extends Thread{
 						try {
 							String str = that.receive(ds);
 							that.addUrlToList(str);
-						} catch (IOException e) {
-							e.printStackTrace();
+						} catch (Exception e) {
+							System.out.println(e.toString());
 						}
 					}
 				}
@@ -346,7 +316,5 @@ public class GameClientViewController extends Thread{
 
     	GameClientViewController gvc = new GameClientViewController();
     	gvc.start();
-//    	InetAddress adr = InetAddress.getByName("localhost");
-//		new GameThread(adr, 12000).start();
     }
 }
