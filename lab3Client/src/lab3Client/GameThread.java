@@ -25,10 +25,13 @@ public class GameThread extends Thread{
 	private InetAddress  			host = null;
 	private int          			port = 0;
 	private int      			buffSize = Config.BUF_SIZE;
+	
+	private GameClientViewController  previousView = null;
 
 	
-	public GameThread(InetAddress host, int port) throws UnknownHostException{
+	public GameThread(InetAddress host, int port, GameClientViewController previousView) throws UnknownHostException{
 
+		this.previousView = previousView;
 		this.gameView = new GameView();
 		this.protocol = new ClientProtocol(this.gameView);
 
@@ -152,6 +155,7 @@ public class GameThread extends Thread{
 				this.gameView.repaint();
 				Thread.sleep(1000/90);
 			}
+			this.previousView.setVisible(true);
 			System.out.println("Game Client Disconnected.");
 		}catch(Exception e){
 			e.printStackTrace();

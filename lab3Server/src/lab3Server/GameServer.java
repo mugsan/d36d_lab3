@@ -30,8 +30,9 @@ public class GameServer {
 	        	
         	Socket socket;
 
-        	new GameServerUDPThread(this.gameModel).start();
-        	new GameServerDSD().start();
+        	new GameServerUDPThread(this.gameModel).start();//UDP LISTENER
+
+        	new GameServerDSD().start();//Dynamic Server Discovery
 
         	while(true){
         		if((socket = serverSocket.accept()) != null){
