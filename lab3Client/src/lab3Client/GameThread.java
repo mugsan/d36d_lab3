@@ -32,8 +32,8 @@ public class GameThread extends Thread{
 	public GameThread(InetAddress host, int port, GameClientViewController previousView) throws UnknownHostException{
 
 		this.previousView = previousView;
-		this.gameView = new GameView();
-		this.protocol = new ClientProtocol(this.gameView);
+		this.gameView 	  = new GameView();
+		this.protocol 	  = new ClientProtocol(this.gameView);
 
 		this.multicastAddress = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
 		this.host         	  = host; 
@@ -51,7 +51,7 @@ public class GameThread extends Thread{
 
 			socket.receive(dp);
 			
-			if(!dp.getAddress().equals(this.host)) return null;
+			if(!dp.getAddress().equals(this.host) && this.port != dp.getPort()) return null;
 			
 			ByteArrayInputStream bais = new ByteArrayInputStream(dp.getData());
 			ObjectInputStream     ois = new ObjectInputStream(bais);
@@ -127,11 +127,10 @@ public class GameThread extends Thread{
 						mcs.joinGroup(that.multicastAddress);
 						while(that.protocol.getState() != ClientState.Disconnected){
 							Msg in = that.receiveDatagramFrom(mcs);
-							if(in != null) that.protocol.processMsg(in);
+							if(in != null)that.protocol.processMsg(in);
 						}
 						mcs.leaveGroup(that.multicastAddress);
 					}catch(Exception e){
-						e.printStackTrace();
 					}
 				}
 				private Thread init(GameThread that){

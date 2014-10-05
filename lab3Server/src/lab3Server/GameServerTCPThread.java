@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
 import lab3DataPacket.Msg;
-import lab3DataPacket.MsgType;
 
 
 
@@ -96,7 +94,9 @@ public class GameServerTCPThread extends Thread{
 			System.out.println(e.toString());
 		}finally{
 			try {
-				socket.close();
+				if(socket != null){
+					socket.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

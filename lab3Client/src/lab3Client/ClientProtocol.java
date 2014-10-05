@@ -164,7 +164,9 @@ public class ClientProtocol {
 			this.gameView.addObject(msg.id, gO);
 			break;
 		case PlayerLeft: 
+			System.out.println("playerLeft");
 			this.gameView.removeObject(msg.id);
+			System.out.println("removedPlayer");
 			if(msg.id == this.id){
 				this.state = ClientState.Disconnected;
 			}

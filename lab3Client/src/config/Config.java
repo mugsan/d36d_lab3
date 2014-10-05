@@ -6,7 +6,6 @@ public abstract class Config {
 
 	public static final String 	   MULTICAST_IP_ADDRESS = "239.4.4.4";
 	public static final int MULTICASTSOCKET_PORT_NUMBER = 13291;
-	public static final int             TCP_PORT_NUMBER = 12000;
 	
 	//Dynamic Server Discovery.
 	public static final int                    DSD_PORT = 1900;

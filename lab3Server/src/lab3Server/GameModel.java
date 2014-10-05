@@ -3,7 +3,6 @@ package lab3Server;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -35,8 +34,6 @@ public class GameModel{
 	
 	public Point moveObject(int id, Point direction){
 
-		System.out.println("id: " + id + " x: " + direction.x + "y: " + direction.y);
-		Date date = new Date();
 		
 		Point   p = this.objects.get(id);
 		Point tmp = new Point(p.x + direction.x, p.y + direction.y);

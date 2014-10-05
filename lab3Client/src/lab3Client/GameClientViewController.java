@@ -155,8 +155,9 @@ public class GameClientViewController extends Thread{
 		this.serverList.addMouseListener(new MouseAdapter() {
 			GameClientViewController that = null;
 			
+			@SuppressWarnings("unchecked")
 			public void mouseClicked(MouseEvent e){
-				JList list = (JList)e.getSource();
+				JList<String> list = (JList<String>)e.getSource();
 				
 				
 				Point cursor = e.getPoint();
@@ -308,6 +309,7 @@ public class GameClientViewController extends Thread{
 					Thread.sleep(1000);
 				}
 			}
+			System.out.println("Thread out.");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

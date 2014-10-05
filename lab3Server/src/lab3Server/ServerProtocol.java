@@ -39,7 +39,6 @@ public class ServerProtocol {
 			break;
 			
 		case Leave:
-			System.out.println("Player left.");
 
 			out      = new Msg();
 			out.id   = msg.id;
@@ -52,10 +51,6 @@ public class ServerProtocol {
 		
 		default:
 			break;
-		}
-
-		if(out != null){
-			System.out.println("Id: " + out.id);
 		}
 		return out;
 	}

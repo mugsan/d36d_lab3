@@ -8,9 +8,10 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class GameView extends JFrame {
-	private Map<Integer, GameObject> views;
+	public Map<Integer, GameObject> views = null;
 	
-	public GameView(){
+	public GameView(){ 
+		System.out.println("New gameView");
 		this.views = new HashMap<Integer, GameObject>();
 		this.setSize(404,429);
 		this.setTitle("someGame");

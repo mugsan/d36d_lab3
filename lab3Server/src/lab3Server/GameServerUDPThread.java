@@ -2,7 +2,6 @@ package lab3Server;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
@@ -19,14 +18,15 @@ public class GameServerUDPThread extends Thread{
 	private ServerProtocol      protocol = null;
 	private InetAddress multicastAddress = null;
 	private int            multicastPort = 0;
-	private int              inboundPort = 0;
+	private int             		port = 0;
 
-	public GameServerUDPThread(GameModel gameModel) throws UnknownHostException{
+	public GameServerUDPThread(GameModel gameModel,int port) throws UnknownHostException{
 		
 		this.multicastAddress = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
 		this.multicastPort    = Config.MULTICASTSOCKET_PORT_NUMBER;
-		this.inboundPort      = Config.TCP_PORT_NUMBER;
-		this.protocol  		  = new ServerProtocol(gameModel);
+
+		this.port     = port;
+		this.protocol = new ServerProtocol(gameModel);
 		
 	}
 
@@ -76,7 +76,7 @@ public class GameServerUDPThread extends Thread{
 	public void run(){
 		try (
 
-			DatagramSocket  ds = new DatagramSocket(this.inboundPort);
+			DatagramSocket  ds = new DatagramSocket(this.port);
 			MulticastSocket ms = new MulticastSocket();
 					
 		){

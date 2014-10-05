@@ -12,6 +12,15 @@ public class GameServerDSD extends Thread{
 	private InetAddress clientAddress = null;
 	private int            clientPort = 0;
 	
+	
+	private String name = null;
+	private int    port = 0;
+	
+	public GameServerDSD(String name, int port){
+		this.name = name;
+		this.port = port;
+	}
+
 	private String receive(MulticastSocket socket) throws IOException{
 		
 		byte[] buffer = new byte[128];
@@ -54,7 +63,7 @@ public class GameServerDSD extends Thread{
 					
 					sysOut += "-It was a Query from a new client.";
 
-					str = "SERVICE REPLY JavaGameServer " + Config.SERVER_NAME + " " + InetAddress.getLocalHost().getHostAddress() + " " + Config.TCP_PORT_NUMBER;
+					str = "SERVICE REPLY JavaGameServer " + this.name + " " + InetAddress.getLocalHost().getHostAddress() + " " + this.port;
 					this.send(ds, str);
 				}
 				System.out.println(sysOut);
