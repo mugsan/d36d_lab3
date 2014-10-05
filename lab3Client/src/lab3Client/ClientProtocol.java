@@ -154,25 +154,25 @@ public class ClientProtocol {
 	public void processMsg(Msg msg){
 		switch (msg.type) {
 		case Join:
-			System.out.println("Msg.id: " + msg.id + " This.id: " + this.id);
+			System.out.println("Join Msg.id: " + msg.id + " This.id: " + this.id);
 			this.id = msg.id;
 			this.state = ClientState.Connected;
 			break;
 		case NewPlayer: 
-			System.out.println("Msg.id: " + msg.id + " This.id: " + this.id);
+			System.out.println("NewPlayer Msg.id: " + msg.id + " This.id: " + this.id);
 			Color  	   color = (msg.id == this.id)? Color.red : Color.blue;
 			GameObject gO    = new GameObject(msg.position, color);
 			this.gameView.addObject(msg.id, gO);
 			break;
 		case PlayerLeft: 
-			System.out.println("Msg.id: " + msg.id + " This.id: " + this.id);
+			System.out.println("PlayerLeft Msg.id: " + msg.id + " This.id: " + this.id);
 			this.gameView.removeObject(msg.id);
 			if(msg.id == this.id){
 				this.state = ClientState.Disconnected;
 			}
 			break;
 		case PlayerMoved: 
-			System.out.println("Msg.id: " + msg.id + " This.id: " + this.id);
+			System.out.println("PlayerMoved Msg.id: " + msg.id + " This.id: " + this.id);
 			this.gameView.moveObjectTo(msg.id, msg.position);
 			break;
 		default:
