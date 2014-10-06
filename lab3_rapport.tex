@@ -58,10 +58,6 @@
 		\end{center}
 	\end{titlepage}
 
-	\begin{itemize}
-	
-	\end{itemize}
-
 	\lfoot{\footnotesize{\name, \email}}
 	\rfoot{\footnotesize{\today}}
 	\lhead{\sc\footnotesize\title}
@@ -81,6 +77,27 @@
 	\setlength{\parskip}{10pt}
 
 	\section{Introduktion}
+		Laborationsuppgiften var att programmera ett nätverksspel. För att kunna utföra denna uppgift var man tvungen att besitta kunskap inom följande:
+		
+        \begin{itemize}
+            \item \textbf{Sockets} \\
+            Spelet skulle innehålla kommunikation över nätverket, detta sköts av diverse sockets:
+            	\begin{itemize}
+            		\item \textbf{DatagramSocket} \\Hanterar trafik av protokollet UDP, kan skicka unicast till en annan DatagramSocket eller multicast genom att skicka till en MulticastSocket. \textit{(T.ex Uppdaterings meddelanden från klient till server.)}
+            		
+            		\item \textbf{MulticastSocket} \\Hanterar inkommande multicast-trafik av protokollet UDP. En MulticastSocket går med i en multicast-grupp för att få ta del av dess trafik. \textit{T.ex. Uppdateringar av spelarnas position från server till klienter.)}
+            		\item \textbf{ServerSocket}
+            		\item \textbf{Socket}
+            	\end{itemize}
+            
+            \item \textbf{InetAddress}
+            	\begin{itemize}
+            		\item \textbf{Ipv4}
+            		\item \textbf{Ipv6}
+            	\end{itemize}
+            	
+			\item \textbf{Threads}            
+        \end{itemize}
 	\section{Metod}
 	\section{Resultat}
 	\section{Diskussion}
