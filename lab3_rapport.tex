@@ -83,9 +83,9 @@
             \item \textbf{Sockets} \\
             Spelet skulle innehålla kommunikation över nätverket, detta sköts av diverse sockets:
             	\begin{itemize}
-            		\item \textbf{DatagramSocket} \\Hanterar trafik av protokollet UDP, kan skicka unicast till en annan DatagramSocket eller multicast genom att skicka till en MulticastSocket. \textit{(T.ex Uppdaterings meddelanden från klient till server.)}
+            		\item \textbf{DatagramSocket} \\Hanterar trafik av protokollet UDP, kan skicka unicast till en annan DatagramSocket eller multicast genom att skicka till en MulticastSocket. \textit{Önskemål om förflyttning från klient till server.}
             		
-            		\item \textbf{MulticastSocket} \\Hanterar inkommande multicast-trafik av protokollet UDP. En MulticastSocket går med i en multicast-grupp för att få ta del av dess trafik. \textit{T.ex. Uppdateringar av spelarnas position från server till klienter.)}
+            		\item \textbf{MulticastSocket} \\Hanterar inkommande multicast-trafik av protokollet UDP. En MulticastSocket går med i en multicast-grupp för att få ta del av dess trafik. \textit{Uppdateringar av spelarnas position från server till klienter.)}
             		\item \textbf{ServerSocket}
             		\item \textbf{Socket}
             	\end{itemize}
