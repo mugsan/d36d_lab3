@@ -40,11 +40,9 @@ public class GameClientViewController extends Thread{
 	private JPanel     verticalPanel = null;
 	private JPanel   horizontalPanel = null;
 
-
 	//ListView components.
 	private JList<String> serverList = null;
 	private JScrollPane   serverPane = null;
-	
 	
 	//UserInput.
 	private TextField    searchField = null;
@@ -53,7 +51,6 @@ public class GameClientViewController extends Thread{
 	
 	//Output.
 	private TextField   outputField = null;
-	
 	
 	//Models
 	private Map<String, ListItem> addressStorage = null;
