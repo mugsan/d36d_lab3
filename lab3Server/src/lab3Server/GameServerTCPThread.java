@@ -55,17 +55,29 @@ public class GameServerTCPThread extends Thread{
 			ObjectOutputStream   oos = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream    ois = new ObjectInputStream(socket.getInputStream());
 		){
-			clients.add(oos);
 
-			System.out.println("Client with id: " + this.clientID + " connected!");
-			System.out.println("Amount online: " + clients.size());
+
+			
+
 
 			//Step 1: Receive Join msg from a new client. Respond with Join and Id#.
 			Msg in,out;
-			in    = (Msg)ois.readObject();
+			Object tmp = ois.readObject();
+
+//			in    = (Msg)ois.readObject();
+
+			if(!(tmp instanceof Msg)){
+				System.out.println("exception thrown");
+				throw new Exception();
+			}
+			in = (Msg)tmp;
+			clients.add(oos);
 			in.id = this.clientID;
 			out   = this.protocol.processMsg(in); 
 			this.sendMsg(out, oos);
+
+			System.out.println("Client with id: " + this.clientID + " connected!");
+			System.out.println("Amount online: " + clients.size());
 			
 			//Step 2: Send all current objects in the model to the new client.
 			ArrayList<Msg> list = this.protocol.getMsgListOfObjects(); 

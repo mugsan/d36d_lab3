@@ -13,16 +13,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -30,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
-import config.Config;
 
 public class GameClientViewController extends Thread{
 	
@@ -60,14 +57,15 @@ public class GameClientViewController extends Thread{
 	
 	//Models
 	private Map<String, ListItem> addressStorage = null;
-	private Vector<String>     	list = null;
+	private DefaultListModel<String>       sList = null;
 	
 	public GameClientViewController(){
 
 		//Model init.
 		this.addressStorage = new HashMap<String, ListItem>();
-		this.list      = new Vector<String>();
-		this.serverList 	= new JList<String>(this.list);
+		this.sList          = new DefaultListModel<String>();
+//		this.serverList 	= new JList<String>(this.list);
+		this.serverList     = new JList<String>(this.sList);
 
 		//Main frame.
 		this.frame = new JFrame("Server List");
@@ -170,7 +168,7 @@ public class GameClientViewController extends Thread{
 
 				int index = list.locationToIndex(cursor);
 				
-				String name = that.list.get(index);
+				String name = (String) that.sList.get(index);
 				
 				ListItem li = that.addressStorage.get(name);
 				
@@ -218,7 +216,7 @@ public class GameClientViewController extends Thread{
 	}
 	
 	
-	private void addUrlToList(String string) throws UnknownHostException{
+	public void add(String string) throws UnknownHostException{
 
 		String[] strArray = string.split(" ");
 		
@@ -241,9 +239,8 @@ public class GameClientViewController extends Thread{
 			li.port     = Integer.parseInt(port);
 			
 			this.addressStorage.put(name,li);
-			this.list.add(name);
-			synchronized (serverList) {
-				this.serverList.updateUI();
+			synchronized (this.sList) {
+				this.sList.addElement(name);
 			}
 		}
 	}
@@ -251,69 +248,18 @@ public class GameClientViewController extends Thread{
 	public void setVisible(boolean b){
 		this.frame.setVisible(b);
 		this.isPlaying = !b;
+		if(b) new GameClientDSDThread(this).start();
 	}
 	
-	private String receive(DatagramSocket socket) throws IOException{
-		
-		byte[] buffer = new byte[128];
-		
-		DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-		
-		socket.receive(dp);
+	public boolean getIsPlaying(){
+		return this.isPlaying;
+	}
+	
+	public boolean getIsScanning(){
+		return this.isScanning;
+	}
+	
 
-		return new String(dp.getData(),0 ,dp.getLength());
-		
-	}
-	
-	private void send(DatagramSocket socket, InetAddress ia) throws IOException{
-		
-		String msg = "SERVICE QUERY JavaGameServer";
-		
-		byte[] buffer = msg.getBytes();
-		
-		DatagramPacket dp = new DatagramPacket(buffer, buffer.length, ia, Config.DSD_PORT);
-		
-		socket.send(dp);
-
-	}
-	
-	@Override
-	public void run(){
-		try(
-			DatagramSocket ds = new DatagramSocket();
-		){
-			InetAddress ia = InetAddress.getByName(Config.DSD_ADDRESS);
-			
-			new Thread(){
-				GameClientViewController that = null;
-				@Override
-				public void run(){
-					while(!that.isPlaying){
-						try {
-							String str = that.receive(ds);
-							that.addUrlToList(str);
-						} catch (Exception e) {
-							System.out.println(e.toString());
-						}
-					}
-				}
-				private Thread init(GameClientViewController that){
-					this.that = that;
-					return this;
-				}
-			}.init(this).start();
-			
-			while(!this.isPlaying){
-				if(this.isScanning){
-					this.send(ds, ia);
-					Thread.sleep(1000);
-				}
-			}
-			System.out.println("Thread out.");
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
     public static void main(String[] args) throws IOException {
 
     	GameClientViewController gvc = new GameClientViewController();
