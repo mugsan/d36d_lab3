@@ -77,27 +77,29 @@
 	\setlength{\parskip}{10pt}
 
 	\section{Introduktion}
-		Laborationsuppgiften var att programmera ett nätverksspel. För att kunna utföra denna uppgift var man tvungen att besitta kunskap inom följande:
+		Laborationsuppgiften var att programmera ett nätverksspel. Syftet med uppgiften var att man skulle utvidga sin kunskap gällande:
 		
         \begin{itemize}
+        	\item \textbf{Nätverksprotokoll} 
+        		\begin{itemize}
+        			\item \textbf{TCP} \\ Pålitligt protokoll för dataöverföring. Lämpligt att använda vid viktiga tillfällen i spelet. \textit{T.ex. när en klient ansluter eller lämnar en server.}
+        			\item \textbf{UDP} \\ Opålitligt men snabbt protokoll för dataöverföring. Snabbare än TCP på grund av att det dels inte skickar tillbaka något ACK-meddelande till sändaren samt att UDP har en mindre 'frame'. Lämpar sig bäst för uppdateringar av förflyttningar på grund av sin snabbhet.
+        		\end{itemize}
             \item \textbf{Sockets} \\
             Spelet skulle innehålla kommunikation över nätverket, detta sköts av diverse sockets:
             	\begin{itemize}
-            		\item \textbf{DatagramSocket} \\Hanterar trafik av protokollet UDP, kan skicka unicast till en annan DatagramSocket eller multicast genom att skicka till en MulticastSocket. \textit{Önskemål om förflyttning från klient till server.}
+            		\item \textbf{DatagramSocket} \\Hanterar trafik av protokollet UDP. Kan skicka unicast till en annan DatagramSocket eller multicast genom att skicka till en multicast-grupp. \textit{T.ex. Önskemål om förflyttning från klient till server.}
             		
-            		\item \textbf{MulticastSocket} \\Hanterar inkommande multicast-trafik av protokollet UDP. En MulticastSocket går med i en multicast-grupp för att få ta del av dess trafik. \textit{Uppdateringar av spelarnas position från server till klienter.)}
-            		\item \textbf{ServerSocket}
-            		\item \textbf{Socket}
+            		\item \textbf{MulticastSocket} \\Hanterar inkommande multicast-trafik av protokollet UDP. En MulticastSocket går med i en multicast-grupp för att få ta del av dess trafik. \textit{T.ex. uppdateringar av spelarnas position från server till klienter.)}
+            		\item \textbf{ServerSocket} \\Serversocket tar emot trafik av protokollet TCP. Ansluter en klient till servern kan man sedan skapa ett Socket objekt för att hantera strömmen.
+            		\item \textbf{Socket} \\ Hanterar TCP-trafik. Skapas av ServerSocket på server-sidan. Klienten skapar den socket som tar kontakt med servern.
+            		
             	\end{itemize}
-            
-            \item \textbf{InetAddress}
-            	\begin{itemize}
-            		\item \textbf{Ipv4}
-            		\item \textbf{Ipv6}
-            	\end{itemize}
-            	
-			\item \textbf{Threads}            
+          	
+			\item \textbf{Trådning} \\En del moment måste köras parallellt och då kan man använda trådar. \textit{T.ex. så har varje klient en tråd på servern den kommunicerar med.}
         \end{itemize}
+        \newpage
+        
 	\section{Metod}
 	\section{Resultat}
 	\section{Diskussion}
