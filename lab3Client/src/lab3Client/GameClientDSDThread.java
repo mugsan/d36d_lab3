@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import javax.swing.SwingUtilities;
 
 import config.Config;
 
@@ -52,7 +55,23 @@ public class GameClientDSDThread extends Thread{
 					while(!that.gvc.getIsPlaying()){
 						try {
 							String str = that.receive(ds);
-							that.gvc.add(str);
+							SwingUtilities.invokeLater(new Runnable(){
+								String str = null;
+
+								@Override
+								public void run() {
+									try {
+										that.gvc.add(str);
+									} catch (UnknownHostException e) {
+										e.printStackTrace();
+									}
+								}
+								private Runnable init(String str){
+									this.str = str;
+									return this;
+								}
+								
+							}.init(str));
 						} catch (Exception e) {
 							System.out.println(e.toString());
 						}

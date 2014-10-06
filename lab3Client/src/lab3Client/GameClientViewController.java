@@ -29,7 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 
-public class GameClientViewController extends Thread{
+public class GameClientViewController{
 	
 	//Thread logic.
 	private boolean       isScanning = false;
@@ -98,11 +98,9 @@ public class GameClientViewController extends Thread{
 		this.verticalPanel.add(this.outputField);
 
 		this.frame.pack();
-		this.setVisible(true);
-		this.initListeners();
 	}
 	
-	private void initListeners(){
+	public void initListeners(){
 		this.searchButton.addActionListener(new ActionListener() {
 			GameClientViewController that = null;
 			
@@ -179,8 +177,7 @@ public class GameClientViewController extends Thread{
 					
 					try {
 						new GameThread(li.address, li.port, that).start();
-						that.isPlaying = true;
-						that.setVisible(false);;
+						that.setVisible(false);
 					} catch (UnknownHostException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -223,9 +220,9 @@ public class GameClientViewController extends Thread{
 		if(!(strArray[0].equals("SERVICE") && strArray[1].equals("REPLY") && strArray[2].equals("JavaGameServer"))) return;
 		
 		
-		name = strArray[3];
+		name    = strArray[3];
 		address = strArray[4];
-		port = strArray[5];
+		port    = strArray[5];
 
 		
 		if(this.addressStorage.get(name) == null){
@@ -243,6 +240,7 @@ public class GameClientViewController extends Thread{
 	}
 	
 	public void setVisible(boolean b){
+		System.out.println("Visible");
 		this.frame.setVisible(b);
 		this.isPlaying = !b;
 		if(b) new GameClientDSDThread(this).start();
@@ -260,6 +258,7 @@ public class GameClientViewController extends Thread{
     public static void main(String[] args) throws IOException {
 
     	GameClientViewController gvc = new GameClientViewController();
-    	gvc.start();
+    	gvc.initListeners();
+    	gvc.setVisible(true);
     }
 }
