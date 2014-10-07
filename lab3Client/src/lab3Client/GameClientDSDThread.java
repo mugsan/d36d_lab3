@@ -10,13 +10,34 @@ import javax.swing.SwingUtilities;
 
 import config.Config;
 
+/**
+ * The Class GameClientDSDThread.
+ * Probes the local network for gameservers.
+ * Updates a list in GameClientViewController with found servers.
+ */
 public class GameClientDSDThread extends Thread{
+	
+	/** The gvc. reference to object holding the list to update.*/
 	private GameClientViewController gvc = null;
 
+	/**
+	 * Instantiates a new game client dsd thread.
+	 * 
+	 * sets reference to object with list to update.
+	 *
+	 * @param gvc the gvc
+	 */
 	public GameClientDSDThread(GameClientViewController gvc) {
 		this.gvc = gvc;
 	}
 	
+	/**
+	 * Receives msg from a potential server.
+	 *
+	 * @param socket the socket
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private String receive(DatagramSocket socket) throws IOException{
 		
 		byte[] buffer = new byte[128];
@@ -29,6 +50,13 @@ public class GameClientDSDThread extends Thread{
 		
 	}
 	
+	/**
+	 * Sends query string to multicastgroup.
+	 *
+	 * @param socket the socket
+	 * @param ia the ia
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void send(DatagramSocket socket, InetAddress ia) throws IOException{
 		
 		String msg = "SERVICE QUERY JavaGameServer";
@@ -41,6 +69,9 @@ public class GameClientDSDThread extends Thread{
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run(){
 		try(
@@ -48,6 +79,7 @@ public class GameClientDSDThread extends Thread{
 		){
 			InetAddress ia = InetAddress.getByName(Config.DSD_ADDRESS);
 			
+			//Listening thread.
 			new Thread(){
 				GameClientDSDThread that = null;
 				@Override
@@ -55,6 +87,7 @@ public class GameClientDSDThread extends Thread{
 					while(!that.gvc.getIsPlaying()){
 						try {
 							String str = that.receive(ds);
+							//Hack/Work around to swings non-threadsafeness.
 							SwingUtilities.invokeLater(new Runnable(){
 								String str = null;
 
@@ -73,9 +106,9 @@ public class GameClientDSDThread extends Thread{
 								
 							}.init(str));
 						} catch (Exception e) {
-							System.out.println(e.toString());
 						}
 					}
+					System.out.println("DSD Inc: thread done.");
 				}
 				private Thread init(GameClientDSDThread that){
 					this.that = that;
@@ -83,13 +116,14 @@ public class GameClientDSDThread extends Thread{
 				}
 			}.init(this).start();
 			
+			//Probing loop.
 			while(!this.gvc.getIsPlaying()){
 				if(this.gvc.getIsScanning()){
 					this.send(ds, ia);
 					Thread.sleep(1000);
 				}
 			}
-			System.out.println("Thread out.");
+			System.out.println("DSD Out: thread done.");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

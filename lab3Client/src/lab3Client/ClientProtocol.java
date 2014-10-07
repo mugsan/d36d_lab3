@@ -9,24 +9,50 @@ import java.awt.event.WindowListener;
 import lab3DataPacket.Msg;
 import lab3DataPacket.MsgType;
 
+/**
+ * The Class ClientProtocol.
+ * Modifies the View depending on given msg.
+ */
 public class ClientProtocol {	
 
+	/** The game view. */
 	private GameView gameView = null;
+	
+	/** The id. This clients id, given by server.*/
 	private int 		   id = 0;
+	
+	/** The state. Initial state of client.*/
 	private ClientState state = ClientState.Connecting;
 	
 	
-	//Keyboard vars
+	//Keyboard vars set by keyboard listener.
+	/** The dx. */
 	private int        dx = 0;
+	
+	/** The dy. */
 	private int        dy = 0;
+	
+	/** The speed. */
 	private int     speed = 1;
+	
+	/** The moved. */
 	private boolean moved = false;
 
+	/**
+	 * Instantiates a new client protocol.
+	 *
+	 * @param gameView the game view
+	 */
 	public ClientProtocol(GameView gameView){
 		this.gameView = gameView;
 		this.initiateListeners();
 	}
 	
+	/**
+	 * Initiate listeners.
+	 * Keylistener to move the player.
+	 * Windowlistener to change clientState if/when player closes window.
+	 */
 	private void initiateListeners(){
 		this.gameView.addKeyListener(new KeyListener() {
 			private ClientProtocol that = null;
@@ -119,6 +145,11 @@ public class ClientProtocol {
 		}.init(this));
 	}
 
+	/**
+	 * Creates a msg depending on the state of client.
+	 * 
+	 * @return the msg
+	 */
 	public Msg getMsg(){
 		Msg msg = new Msg();
 		switch (this.state) {
@@ -151,6 +182,12 @@ public class ClientProtocol {
 		return msg;
 	}
 
+	/**
+	 * Process msg.
+	 * Modifies View depending on msg given.
+	 *
+	 * @param msg the msg given from server.
+	 */
 	public void processMsg(Msg msg){
 		switch (msg.type) {
 		case Join:
@@ -179,11 +216,12 @@ public class ClientProtocol {
 		}
 	} 
 	
+	/**
+	 * Gets the state.
+	 *
+	 * @return the state
+	 */
 	public ClientState getState(){
 		return this.state;
-	}
-	
-	public GameView getView(){
-		return this.gameView;
 	}
 }

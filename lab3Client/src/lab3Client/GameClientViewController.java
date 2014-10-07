@@ -29,33 +29,60 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 
+/**
+ * The Class GameClientViewController.
+ * ViewController
+ */
 public class GameClientViewController{
 	
 	//Thread logic.
+	/** The is scanning. */
 	private boolean       isScanning = false;
+	
+	/** The is playing. */
 	private boolean        isPlaying = false;
 	
 	//Views for Structure.
+	/** The frame. */
 	private JFrame             frame = null;
+	
+	/** The vertical panel. */
 	private JPanel     verticalPanel = null;
+	
+	/** The horizontal panel. */
 	private JPanel   horizontalPanel = null;
 
 	//ListView components.
+	/** The server list. */
 	private JList<String> serverList = null;
+	
+	/** The server pane. */
 	private JScrollPane   serverPane = null;
 	
 	//UserInput.
+	/** The search field. */
 	private TextField    searchField = null;
+	
+	/** The search button. */
 	private JButton     searchButton = null;
+	
+	/** The scan button. */
 	private JToggleButton scanButton = null;
 	
 	//Output.
+	/** The output field. */
 	private TextField   outputField = null;
 	
 	//Models
+	/** The address storage. */
 	private Map<String, ListItem> addressStorage = null;
+	
+	/** The s list. */
 	private DefaultListModel<String>       sList = null;
 	
+	/**
+	 * Instantiates a new game client view controller.
+	 */
 	public GameClientViewController(){
 
 		//Model init.
@@ -99,6 +126,9 @@ public class GameClientViewController{
 		this.frame.pack();
 	}
 	
+	/**
+	 * Inits the listeners.
+	 */
 	public void initListeners(){
 		this.searchButton.addActionListener(new ActionListener() {
 			GameClientViewController that = null;
@@ -192,6 +222,13 @@ public class GameClientViewController{
 		}.init(this));
 	}
 	
+	/**
+	 * Gets the ipv6 address.
+	 *
+	 * @param string the string
+	 * @return the ipv6 address
+	 * @throws UnknownHostException the unknown host exception
+	 */
 	private InetAddress getIpv6Address(String string) throws UnknownHostException{
 
 		InetAddress i6a = null;
@@ -209,6 +246,12 @@ public class GameClientViewController{
 	}
 	
 	
+	/**
+	 * Adds the.
+	 *
+	 * @param string the string
+	 * @throws UnknownHostException the unknown host exception
+	 */
 	public void add(String string) throws UnknownHostException{
 
 		String[] strArray = string.split(" ");
@@ -238,6 +281,11 @@ public class GameClientViewController{
 		}
 	}
 	
+	/**
+	 * Sets the visible.
+	 *
+	 * @param b the new visible
+	 */
 	public void setVisible(boolean b){
 		System.out.println("Visible");
 		this.frame.setVisible(b);
@@ -245,15 +293,31 @@ public class GameClientViewController{
 		if(b) new GameClientDSDThread(this).start();
 	}
 	
+	/**
+	 * Gets the checks if is playing.
+	 *
+	 * @return the checks if is playing
+	 */
 	public boolean getIsPlaying(){
 		return this.isPlaying;
 	}
 	
+	/**
+	 * Gets the checks if is scanning.
+	 *
+	 * @return the checks if is scanning
+	 */
 	public boolean getIsScanning(){
 		return this.isScanning;
 	}
 	
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public static void main(String[] args) throws IOException {
 
     	GameClientViewController gvc = new GameClientViewController();
