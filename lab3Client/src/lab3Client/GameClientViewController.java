@@ -82,6 +82,7 @@ public class GameClientViewController{
 	
 	/**
 	 * Instantiates a new game client view controller.
+	 * Sets all the swing components. 
 	 */
 	public GameClientViewController(){
 
@@ -128,6 +129,11 @@ public class GameClientViewController{
 	
 	/**
 	 * Inits the listeners.
+	 * Actionlisteren for the search button to do a DNS check of a url.
+	 * 
+	 * ItemListener to check toggleButton to decide if probing of servers should be done.
+	 * 
+	 * MouseAdapter/listener to let the user pick wich server to join from a list.
 	 */
 	public void initListeners(){
 		this.searchButton.addActionListener(new ActionListener() {
@@ -223,7 +229,7 @@ public class GameClientViewController{
 	}
 	
 	/**
-	 * Gets the ipv6 address.
+	 * Gets the ipv6 address if any from a given string representing an url.
 	 *
 	 * @param string the string
 	 * @return the ipv6 address
@@ -247,7 +253,8 @@ public class GameClientViewController{
 	
 	
 	/**
-	 * Adds the.
+	 * Validates given string. 
+	 * If valid, creates ListItem object with values given from string.
 	 *
 	 * @param string the string
 	 * @throws UnknownHostException the unknown host exception
@@ -259,6 +266,7 @@ public class GameClientViewController{
 		String address,port,name;
 		
 
+
 		if(!(strArray[0].equals("SERVICE") && strArray[1].equals("REPLY") && strArray[2].equals("JavaGameServer"))) return;
 		
 		
@@ -267,6 +275,7 @@ public class GameClientViewController{
 		port    = strArray[5];
 
 		
+		//Only adds item if there is no in the registry
 		if(this.addressStorage.get(name) == null){
 
 			ListItem li = new ListItem();
@@ -282,7 +291,9 @@ public class GameClientViewController{
 	}
 	
 	/**
-	 * Sets the visible.
+	 * Sets the view to visible.
+	 * If the view is visible the player can not be playin the game.
+	 * Starts thread that probes for servers.
 	 *
 	 * @param b the new visible
 	 */
@@ -315,7 +326,6 @@ public class GameClientViewController{
     /**
      * The main method.
      *
-     * @param args the arguments
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public static void main(String[] args) throws IOException {
