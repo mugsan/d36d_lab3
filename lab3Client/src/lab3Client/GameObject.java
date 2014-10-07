@@ -9,12 +9,14 @@ import java.awt.Rectangle;
 
 import javax.swing.JComponent;
 
+import config.Config;
+
 @SuppressWarnings("serial")
 public class GameObject extends JComponent {
 	
 	private Point position;
 	private Color color;
-	private Dimension dimension = new Dimension(20,20);
+	private Dimension dimension = Config.OBJECT_DIM;
 	
 	public GameObject(Point aPosition, Color color){
 		this.position = aPosition;

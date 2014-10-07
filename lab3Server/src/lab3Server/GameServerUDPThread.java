@@ -13,13 +13,31 @@ import java.net.UnknownHostException;
 import lab3DataPacket.Msg;
 import config.Config;
 
+/**
+ * The Class GameServerUDPThread.
+ * Receives UDP msgs from any clients connected, and multicasts to all clients.
+ */
 public class GameServerUDPThread extends Thread{
 
+	/** The protocol. handles msgs*/
 	private ServerProtocol      protocol = null;
+	
+	/** The multicast address. */
 	private InetAddress multicastAddress = null;
+	
+	/** The multicast port. */
 	private int            multicastPort = 0;
+	
+	/** The port. */
 	private int             		port = 0;
 
+	/**
+	 * Instantiates a new game server udp thread.
+	 *
+	 * @param gameModel the game model
+	 * @param port the port
+	 * @throws UnknownHostException the unknown host exception
+	 */
 	public GameServerUDPThread(GameModel gameModel,int port) throws UnknownHostException{
 		
 		this.multicastAddress = InetAddress.getByName(Config.MULTICAST_IP_ADDRESS);
@@ -30,6 +48,13 @@ public class GameServerUDPThread extends Thread{
 		
 	}
 
+	/**
+	 * Receive datagram from.
+	 * 
+	 *
+	 * @param socket the socket to listen to
+	 * @return the msg received
+	 */
 	private Msg receiveDatagramFrom(DatagramSocket socket){
 
 		Msg msg = null;
@@ -53,6 +78,12 @@ public class GameServerUDPThread extends Thread{
 		return msg;
 	}
 	
+	/**
+	 * Send msg in datagram.
+	 *
+	 * @param socket the socket to send from.
+	 * @param msg the msg to send.
+	 */
 	private void sendMsgInDatagram(MulticastSocket socket, Msg msg){
 		try{
 
@@ -72,6 +103,10 @@ public class GameServerUDPThread extends Thread{
 		}
 	}		
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 * Listening and multicasting in block form.
+	 */
 	@Override
 	public void run(){
 		try (

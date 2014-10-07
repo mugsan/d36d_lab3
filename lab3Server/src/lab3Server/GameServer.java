@@ -5,18 +5,38 @@ import java.util.Random;
 import java.util.Vector;
 import java.io.*;
 
-
+/**
+ * The Class GameServer.
+ * Allows clients to find the server via DSD thread.
+ * Creates Sockets as clients connects.
+ * 
+ */
 public class GameServer {
+	
+	/** The game model. */
 	private GameModel 				   gameModel = null;
+	
+	/** The client oos. */
 	private Vector<ObjectOutputStream> clientOos = null;
+	
+	/** The rand. used to calc random ints */
 	private Random                          rand = null;
 
+	/** The next id. Given to clients and increments.*/
 	private int  nextId = 1;
 	
 	
+	/** The name. */
 	private String name = null;
+	
+	/** The port. */
 	private int    port = 0;
 	
+	/**
+	 * Instantiates a new game server.
+	 * Instantiates datastructures and generates a free port number.
+	 * Generates a server name based on that port number.
+	 */
 	public GameServer(){
 		 
 		this.rand = new Random();
@@ -27,6 +47,11 @@ public class GameServer {
 		this.name = "Manges_server:" + this.port;
 	}
 	
+	/**
+	 * Random port.
+	 * Generates a random port number.
+	 * @return the int 
+	 */
 	private int randomPort(){
 		int port;
 
@@ -37,10 +62,23 @@ public class GameServer {
 		return port;
 	}
 	
+	/**
+	 * Random num.
+	 *
+	 * @param min the min
+	 * @param max the max
+	 * @return the int
+	 */
 	private int randomNum(int min, int max){
 		return rand.nextInt(max - min + 1) + min;
 	}
 	
+	/**
+	 * Test port.
+	 *
+	 * @param port the port
+	 * @return true, if successful
+	 */
 	private boolean testPort(int port){
 		try(
 				ServerSocket ss = new ServerSocket(port);
@@ -51,6 +89,9 @@ public class GameServer {
 		}
 	}
 	
+	/**
+	 * Starts the threads.
+	 */
 	public void init(){	
 		try ( 
 			ServerSocket serverSocket = new ServerSocket(this.port);
@@ -75,6 +116,12 @@ public class GameServer {
         }	
 	}
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public static void main(String[] args) throws IOException {
     	System.out.println("Server starting...");
     	GameServer gs = new GameServer();

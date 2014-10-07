@@ -13,34 +13,68 @@ import lab3DataPacket.Msg;
 
 
 
+/**
+ * The Class GameServerTCPThread.
+ * Listen and sends tcp msgs to client/clients
+ */
 public class GameServerTCPThread extends Thread{
 	
 
+	/** The clients. Reference to all clients outputstreams connected to the server.*/
 	private Vector<ObjectOutputStream> clients = null;
 
+	/** The protocol. */
 	private ServerProtocol protocol = null;
+	
+	/** The socket. */
 	private Socket 			 socket = null;
+	
+	/** The client id. This threads clientId.*/
 	private int 		   clientID = 0;
 	
 
 	
+	/**
+	 * Instantiates a new game server tcp thread.
+	 * 
+	 * 
+	 *
+	 * @param socket the socket
+	 * @param clients the clients
+	 * @param clientID the client id
+	 * @param gameView the game view
+	 * @throws UnknownHostException the unknown host exception
+	 */
 	public GameServerTCPThread(Socket socket,
 	    Vector<ObjectOutputStream> clients, 
 							   int clientID, 
-					     GameModel gameView) throws UnknownHostException{
+					     GameModel gameModel) throws UnknownHostException{
 		
 		this.socket        = socket;
 		this.clients       = clients;
 		this.clientID      = clientID;
-		this.protocol      = new ServerProtocol(gameView);
+		this.protocol      = new ServerProtocol(gameModel);
 
 	}
 	
+	/**
+	 * Send msg.
+	 *
+	 * @param msg the msg
+	 * @param oos the oos
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void sendMsg(Msg msg, ObjectOutputStream oos) throws IOException{
 		oos.writeObject(msg);
 		oos.flush();
 	}
 	
+	/**
+	 * Broadcast msg.
+	 *
+	 * @param msg the msg
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void broadcastMsg(Msg msg) throws IOException{
 		Iterator<ObjectOutputStream> it = this.clients.iterator();
 		while(it.hasNext()){
@@ -49,29 +83,19 @@ public class GameServerTCPThread extends Thread{
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		try(
 			ObjectOutputStream   oos = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream    ois = new ObjectInputStream(socket.getInputStream());
 		){
-
-
-			
-
-
 			//Step 1: Receive Join msg from a new client. Respond with Join and Id#.
 			Msg in,out;
-			Object tmp = ois.readObject();
 
-//			in    = (Msg)ois.readObject();
-
-			if(!(tmp instanceof Msg)){
-				System.out.println("exception thrown");
-				throw new Exception();
-			}
-			in = (Msg)tmp;
-			clients.add(oos);
+			in    = (Msg)ois.readObject();
 			in.id = this.clientID;
 			out   = this.protocol.processMsg(in); 
 			this.sendMsg(out, oos);
@@ -88,6 +112,7 @@ public class GameServerTCPThread extends Thread{
 
 			
 			//Step 3: Add the new client to the model and broadcast the addition.
+			clients.add(oos); //add this oos to client streams.
 			out = this.protocol.addClientToModel(this.clientID);
 			this.broadcastMsg(out);
 

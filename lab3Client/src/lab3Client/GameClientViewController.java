@@ -61,7 +61,6 @@ public class GameClientViewController{
 		//Model init.
 		this.addressStorage = new HashMap<String, ListItem>();
 		this.sList          = new DefaultListModel<String>();
-//		this.serverList 	= new JList<String>(this.list);
 		this.serverList     = new JList<String>(this.sList);
 
 		//Main frame.
