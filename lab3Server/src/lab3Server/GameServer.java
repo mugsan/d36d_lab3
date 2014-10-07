@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.Vector;
 import java.io.*;
 
+import config.Config;
+
 /**
  * The Class GameServer.
  * Allows clients to find the server via DSD thread.
@@ -44,7 +46,7 @@ public class GameServer {
 		this.gameModel = new GameModel();
 		this.clientOos = new Vector<ObjectOutputStream>();
 		this.port = this.randomPort();
-		this.name = "Manges_server:" + this.port;
+		this.name = Config.SERVER_NAME + this.port;
 	}
 	
 	/**
