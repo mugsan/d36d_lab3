@@ -38,7 +38,7 @@ public class GameObject extends JComponent {
 		this.color = color;
 	}
 	
-	/* (non-Javadoc)
+	/* Swing method to paint the object on the frame.
 	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
 	 */
 	public void paint(Graphics g){

@@ -15,20 +15,40 @@ import config.Config;
 import lab3DataPacket.Msg;
 import lab3DataPacket.MsgType;
 
+/**
+ * The Class GameThread.
+ * Handles connection to server. 
+ * 
+ */
 public class GameThread extends Thread{
 
+	/** The game view. Reference to gameView, used by gameLoop to repaint each cycle.*/
 	private GameView 	   gameView = null;
+	
+	/** The protocol. */
 	private ClientProtocol protocol = null;
 	
-	//Connection details
+	/** The multicast address. */
 	private InetAddress multicastAddress = null;
-	private InetAddress  			host = null;
-	private int          			port = 0;
-	private int      			buffSize = Config.BUF_SIZE;
 	
+	/** The host. */
+	private InetAddress  			host = null;
+	
+	/** The port. */
+	private int          			port = 0;
+	
+	/** The previous view. */
 	private GameClientViewController  previousView = null;
 
 	
+	/**
+	 * Instantiates a new game thread.
+	 *
+	 * @param host the host
+	 * @param port the port
+	 * @param previousView Used when the game ends to open the last view again. 
+	 * @throws UnknownHostException the unknown host exception
+	 */
 	public GameThread(InetAddress host, int port, GameClientViewController previousView) throws UnknownHostException{
 
 		this.previousView = previousView;
@@ -41,16 +61,23 @@ public class GameThread extends Thread{
 
 	}
 	
+	/**
+	 * Receive datagram from.
+	 *
+	 * @param socket the socket
+	 * @return the msg
+	 */
 	private Msg receiveDatagramFrom(MulticastSocket socket){
 
 		Msg msg = null;
 
 		try { 
-			byte[]     buffer = new byte[this.buffSize];
+			byte[]     buffer = new byte[Config.BUF_SIZE];
 			DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
 
 			socket.receive(dp);
 			
+			//Returns null if the datagrampacket is from another server.
 			if(!dp.getAddress().equals(this.host) && this.port != dp.getPort()) return null;
 			
 			ByteArrayInputStream bais = new ByteArrayInputStream(dp.getData());
@@ -64,6 +91,12 @@ public class GameThread extends Thread{
 		return msg;
 	}
 	
+	/**
+	 * Send msg in datagram.
+	 *
+	 * @param socket the socket
+	 * @param msg the msg
+	 */
 	private void sendMsgInDatagram(DatagramSocket socket, Msg msg){
 		try{
 
@@ -83,6 +116,9 @@ public class GameThread extends Thread{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		try( 
@@ -161,7 +197,7 @@ public class GameThread extends Thread{
 				this.gameView.repaint();
 				Thread.sleep(1000/90);
 			}
-			this.previousView.setVisible(true);
+			this.previousView.setVisible(true);//Sets previous view visible and starts probing servers again.
 			System.out.println("Game Client Disconnected.");
 		}catch(Exception e){
 			System.out.println("MainGameThread: " + e.toString());
