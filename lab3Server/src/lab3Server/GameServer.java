@@ -125,7 +125,6 @@ public class GameServer {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public static void main(String[] args) throws IOException {
-    	System.out.println("Server starting...");
     	GameServer gs = new GameServer();
     	gs.init();
     }
