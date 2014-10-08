@@ -10,5 +10,8 @@
 \BOOKMARK [3][-]{subsubsection.3.3.1}{Klient}{subsection.3.3}% 10
 \BOOKMARK [3][-]{subsubsection.3.3.2}{Server}{subsection.3.3}% 11
 \BOOKMARK [1][-]{section.4}{Diskussion}{}% 12
-\BOOKMARK [2][-]{subsection.4.1}{Threadpool}{section.4}% 13
-\BOOKMARK [2][-]{subsection.4.2}{Synchronize}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.1}{L\366sningens begr\344nsningar}{section.4}% 13
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Objekt}{subsection.4.1}% 14
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Synchronize}{subsection.4.1}% 15
+\BOOKMARK [3][-]{subsubsection.4.1.3}{Instabilitet}{subsection.4.1}% 16
+\BOOKMARK [3][-]{subsubsection.4.1.4}{Threadpool}{subsection.4.1}% 17

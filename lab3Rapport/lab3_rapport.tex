@@ -207,6 +207,8 @@
 					\item \textbf{UDP Thread}\\Lyssnar efter förflyttnings-förfrågningar av klienter, skickar tillbaka förflyttning till alla klienter kopplade till servern om förflyttning beviljas. Startas i sammband med serverstart, \textbf{en tråd per server} krävs.
 					\item \textbf{TCP Thread}\\Sänder och tar emot meddellanden som skickas till servern över TCP. Startas när en klient ansluter till servern, därför krävs \textbf{en tråd per ansluten klient}.
 				\end{itemize}
+	
+	\newpage
 	\section{Diskussion}
 		Laborationen var intressant och givande. Det hade dock varit kul om det hade varit krav på att spelet skulle följa ett specifikt protokoll likt laboration 4. Detta för att kunna testa servrarna/klienterna mot sina klasskamraters.\\\\
 		\textbf{Datagram*/Packet/Socket}\\Efter att ha arbetat med TCP strömmar tog det ett tag att ställa om tankesättet till UDP. Men om man tänker DatagramSocket som en brevlåda, DatagramPacket som ett kuvert och Datagram som ett brev så blir det lite klarare. Man skulle kunna tänka sig att man sätter ett tomt kuvert i sin brevlåda och väntar på att en brevbärare stoppar in ett brev i kuvertet, när han gjort det målar han om brevlådan och då vet man att det finns ett brev inuti kuvertet!

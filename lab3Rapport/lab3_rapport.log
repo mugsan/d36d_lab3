@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.6)  8 OCT 2014 15:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.10.6)  8 OCT 2014 16:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -572,7 +572,7 @@ Package babel Info: Redefining swedish shorthand "|
 Package babel Info: Redefining swedish shorthand "~
 (babel)             in language  on input line 112.
 
-<./documentation/images/abstract.png, id=99, 712.6625pt x 291.0875pt>
+<./documentation/images/abstract.png, id=114, 712.6625pt x 291.0875pt>
 File: ./documentation/images/abstract.png Graphic file (type png)
 
 <use ./documentation/images/abstract.png>
@@ -605,7 +605,7 @@ Package babel Info: Redefining swedish shorthand "|
 Package babel Info: Redefining swedish shorthand "~
 (babel)             in language  on input line 131.
 [2 <./documentation/images/abstract.png (PNG copy)>]
-<./documentation/images/scr2.png, id=110, 640.3925pt x 330.23375pt>
+<./documentation/images/scr2.png, id=125, 640.3925pt x 330.23375pt>
 File: ./documentation/images/scr2.png Graphic file (type png)
 
 <use ./documentation/images/scr2.png>
@@ -626,7 +626,7 @@ Package babel Info: Redefining swedish shorthand "|
 Package babel Info: Redefining swedish shorthand "~
 (babel)             in language  on input line 142.
 
-<./documentation/images/scr1.png, id=117, 813.0375pt x 432.61626pt>
+<./documentation/images/scr1.png, id=132, 813.0375pt x 432.61626pt>
 File: ./documentation/images/scr1.png Graphic file (type png)
 
 <use ./documentation/images/scr1.png>
@@ -647,7 +647,7 @@ Package babel Info: Redefining swedish shorthand "|
 (babel)             in language  on input line 149.
 Package babel Info: Redefining swedish shorthand "~
 (babel)             in language  on input line 149.
-<./documentation/images/protocol.png, id=118, 562.1pt x 813.0375pt>
+<./documentation/images/protocol.png, id=133, 562.1pt x 813.0375pt>
 File: ./documentation/images/protocol.png Graphic file (type png)
 
 <use ./documentation/images/protocol.png>
@@ -686,7 +686,7 @@ Package babel Info: Redefining swedish shorthand "|
 Package babel Info: Redefining swedish shorthand "~
 (babel)             in language  on input line 183.
 
-<./documentation/images/threads.png, id=146, 843.15pt x 481.8pt>
+<./documentation/images/threads.png, id=162, 843.15pt x 481.8pt>
 File: ./documentation/images/threads.png Graphic file (type png)
 
 <use ./documentation/images/threads.png>
@@ -711,45 +711,72 @@ Package babel Info: Redefining swedish shorthand "|
 Package babel Info: Redefining swedish shorthand "~
 (babel)             in language  on input line 203.
 Package babel Info: Redefining swedish shorthand "|
-(babel)             in language  on input line 210.
+(babel)             in language  on input line 211.
 Package babel Info: Redefining swedish shorthand "~
-(babel)             in language  on input line 210.
+(babel)             in language  on input line 211.
+Package babel Info: Redefining swedish shorthand "|
+(babel)             in language  on input line 211.
+Package babel Info: Redefining swedish shorthand "~
+(babel)             in language  on input line 211.
+ [8]
+Package babel Info: Redefining swedish shorthand "|
+(babel)             in language  on input line 212.
+Package babel Info: Redefining swedish shorthand "~
+(babel)             in language  on input line 212.
 
-Underfull \hbox (badness 10000) in paragraph at lines 211--213
+Underfull \hbox (badness 10000) in paragraph at lines 213--215
 
  []
 
 Package babel Info: Redefining swedish shorthand "|
-(babel)             in language  on input line 214.
+(babel)             in language  on input line 216.
 Package babel Info: Redefining swedish shorthand "~
-(babel)             in language  on input line 214.
+(babel)             in language  on input line 216.
 Package babel Info: Redefining swedish shorthand "|
-(babel)             in language  on input line 215.
+(babel)             in language  on input line 217.
 Package babel Info: Redefining swedish shorthand "~
-(babel)             in language  on input line 215.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 218.
-Package babel Info: Redefining swedish shorthand "|
-(babel)             in language  on input line 218.
-Package babel Info: Redefining swedish shorthand "~
-(babel)             in language  on input line 218.
+(babel)             in language  on input line 217.
 Package babel Info: Redefining swedish shorthand "|
 (babel)             in language  on input line 218.
 Package babel Info: Redefining swedish shorthand "~
 (babel)             in language  on input line 218.
-[8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 218.
+Package babel Info: Redefining swedish shorthand "|
+(babel)             in language  on input line 219.
+Package babel Info: Redefining swedish shorthand "~
+(babel)             in language  on input line 219.
+Package babel Info: Redefining swedish shorthand "|
+(babel)             in language  on input line 220.
+Package babel Info: Redefining swedish shorthand "~
+(babel)             in language  on input line 220.
+
+Overfull \hbox (15.16205pt too wide) in paragraph at lines 220--221
+\T1/cmr/m/n/10 Servern star-tar en tråd för var-je an-slut-ning, där-för blir s
+er-vern öp-pen för DoS(Denial
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 223.
+Package babel Info: Redefining swedish shorthand "|
+(babel)             in language  on input line 223.
+Package babel Info: Redefining swedish shorthand "~
+(babel)             in language  on input line 223.
+Package babel Info: Redefining swedish shorthand "|
+(babel)             in language  on input line 223.
+Package babel Info: Redefining swedish shorthand "~
+(babel)             in language  on input line 223.
+[9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 223.
  (./lab3_rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 218.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 218.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 223.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 223.
 Package rerunfilecheck Info: File `lab3_rapport.out' has not changed.
-(rerunfilecheck)             Checksum: B714801A51F69A1EAE168C5527A46BBD;810.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 218.
+(rerunfilecheck)             Checksum: 368B302B7346BD23107392E0B871A77A;1048.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 223.
  ) 
 Here is how much of TeX's memory you used:
- 6477 strings out of 493117
- 92218 string characters out of 6135433
+ 6484 strings out of 493117
+ 92354 string characters out of 6135433
  178326 words of memory out of 5000000
- 9797 multiletter control sequences out of 15000+600000
+ 9800 multiletter control sequences out of 15000+600000
  20736 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,10n,43p,638b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -767,10 +794,10 @@ ve/2014/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive
 /2014/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2
 014/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/201
 4/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on lab3_rapport.pdf (10 pages, 424598 bytes).
+Output written on lab3_rapport.pdf (11 pages, 426485 bytes).
 PDF statistics:
- 212 PDF objects out of 1000 (max. 8388607)
- 179 compressed objects within 2 object streams
- 44 named destinations out of 1000 (max. 500000)
- 138 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 231 PDF objects out of 1000 (max. 8388607)
+ 197 compressed objects within 2 object streams
+ 48 named destinations out of 1000 (max. 500000)
+ 162 words of extra memory for PDF output out of 10000 (max. 10000000)
 
