@@ -1,4 +1,11 @@
 \BOOKMARK [1][-]{section.1}{Introduktion}{}% 1
 \BOOKMARK [1][-]{section.2}{Metod}{}% 2
-\BOOKMARK [1][-]{section.3}{Resultat}{}% 3
-\BOOKMARK [1][-]{section.4}{Diskussion}{}% 4
+\BOOKMARK [2][-]{subsection.2.1}{Design}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Resultat}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Anv\344ndarhandledning}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Handskakning}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.3}{Applikationsprotokoll}{section.3}% 7
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Klient}{subsection.3.3}% 8
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Server}{subsection.3.3}% 9
+\BOOKMARK [1][-]{section.4}{Diskussion}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{Synchronize}{section.4}% 11

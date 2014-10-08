@@ -17,13 +17,13 @@
 
 
 \def\typeofdoc{Laborationsrapport}
-\def\course{S0014D}
+\def\course{D0036D}
 \def\pretitle{Laboration 3}
-\def\title{jobQuery - En applikation för den arbetslöse.}
+\def\title{JavaGameServer \& Client}
 \def\name{Magnus Björk}
 \def\username{magbjr-3}
 \def\email{\username{}@student.ltu.se}
-\def\graders{Patrik Holmlund}
+\def\graders{Örjan Tjernström}
 \def\university{Luleå Tekniska Universitet}
 
 
@@ -96,13 +96,43 @@
             		
             	\end{itemize}
           	
-			\item \textbf{Trådning} \\En del moment måste köras parallellt och då kan man använda trådar. \textit{T.ex. så har varje klient en tråd på servern den kommunicerar med.}
+			\item \textbf{Trådning} \\En del moment måste köras parallellt och då kan man använda trådar. \textit{T.ex. så har varje klient en tråd på servern som den kommunicerar med.}
         \end{itemize}
         \newpage
         
 	\section{Metod}
+	
+		Min strategi för att lösa uppgiften var att dela upp koden i 3 lager. Detta för att göra det enkelt att lägga på funktioner. \textit{T.ex. Uppgiften att flytta uppdateringsmeddellanden från TCP till UDP var relativt smärtfri, hade spelmekanik varit inblandad i denna del hade det varit betydligt värre.}
+		\begin{itemize}
+			\item \textbf{Nätverk} Nätverkskoden skall endast skicka meddellanden mellan servern och klienten. Ingenting som har med spel-lagret att göra skall finnas här.
+			\item \textbf{Spel} Spelets logik och utseende skall endast påverkas av kommunikations-lagret av programmet.
+			\item \textbf{Kommunikation}\\Det lager som sköter kommunikation mellan Spel- och Nätverks-lagren. 
+		\end{itemize}
+		
+		\subsection{Design}
+			\begin{center}
+				\includegraphics[scale=.5]{./documentation/images/abstract.png}
+			\end{center}
+			
+			Jag ville skapa ett dataflöde liknande bilden ovan.
+			\begin{enumerate}
+				\item Spelaren trycker på en tangent för att flytta sin markör.
+				\item Klient-protokollet skapar ett meddelande med användarens indata och skickar detta till nätverkslagret.
+				\item Nätverkslagret skickar nu meddelandet från klienten till servern.
+				\item Server-protokollet tar emot och bearbetar modellen efter anvisningar i meddelandet. Skapar ett nytt meddelande som skickas tillbaka till klienten via nätverkslagret.
+				\item Klient-protokollet tar emot meddelandet och ändrar eventuellt vyn som visas för spelaren.
+				\item Spelaren upptäcker förflyttningen (Om den var giltig) och kan nu ge ny indata om den så vill.
+			\end{enumerate}
+		
 	\section{Resultat}
+		\subsection{Användarhandledning}
+		
+		\subsection{Handskakning}
+		\subsection{Applikationsprotokoll}
+			\subsubsection{Klient}
+			\subsubsection{Server}
 	\section{Diskussion}
+		\subsection{Synchronize}
     
     
 \end{document}
