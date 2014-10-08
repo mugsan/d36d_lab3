@@ -99,7 +99,6 @@ public class GameServer {
 			ServerSocket serverSocket = new ServerSocket(this.port);
 	    ){
 	        	
-
         	Socket socket;
 
         	new GameServerUDPThread(this.gameModel, this.port).start();//UDP LISTENER

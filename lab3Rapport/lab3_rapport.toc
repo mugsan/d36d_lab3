@@ -1,0 +1,15 @@
+\select@language {swedish}
+\contentsline {section}{\numberline {1}Introduktion}{1}{section.1}
+\contentsline {section}{\numberline {2}Metod}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Design}{2}{subsection.2.1}
+\contentsline {section}{\numberline {3}Resultat}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Anv\IeC {\"a}ndarhandledning}{3}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Serverlista}{3}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Spelvy}{4}{subsubsection.3.1.2}
+\contentsline {subsection}{\numberline {3.2}Spelprotokoll}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Tr\IeC {\r a}dar}{7}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Klient}{7}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Server}{8}{subsubsection.3.3.2}
+\contentsline {section}{\numberline {4}Diskussion}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Threadpool}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Synchronize}{8}{subsection.4.2}

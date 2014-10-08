@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Introduktion}{}% 1
+\BOOKMARK [1][-]{section.2}{Metod}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Design}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Resultat}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Anv\344ndarhandledning}{section.3}% 5
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Serverlista}{subsection.3.1}% 6
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Spelvy}{subsection.3.1}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Spelprotokoll}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Tr\345dar}{section.3}% 9
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Klient}{subsection.3.3}% 10
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Server}{subsection.3.3}% 11
+\BOOKMARK [1][-]{section.4}{Diskussion}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{Threadpool}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.2}{Synchronize}{section.4}% 14
